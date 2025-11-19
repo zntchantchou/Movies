@@ -7,8 +7,8 @@ const viteServer = await createServer({
   server: { middlewareMode: true },
   appType: "custom",
 });
-app.use(viteServer.middlewares);
 
+app.use(viteServer.middlewares);
 app.use("*all", async (req, res, next) => {
   const url = req.originalUrl;
   try {
