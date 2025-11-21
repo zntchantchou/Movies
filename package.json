@@ -4,13 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "ssr": "node server.ts",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "node server.ts",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "tsc -b && vite build --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "preview": "cross-env NODE_ENV=production node server.ts",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "cross-env": "^10.1.0",
     "express": "^5.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
