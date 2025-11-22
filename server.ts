@@ -41,6 +41,7 @@ export async function createServer(
         // @ts-expect-error not typed yet
         return import("./dist/server/entry-server.js");
       })();
+      console.log("Entry ", entry);
       entry.render({ req, res, head: viteHead });
     } catch (e) {
       const err = e as Error;

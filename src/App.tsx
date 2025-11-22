@@ -3,6 +3,7 @@ import "./App.scss";
 
 function App() {
   console.log("App 1");
+
   useEffect(() => {
     console.log("App useffect");
   }, []);

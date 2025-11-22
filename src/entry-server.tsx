@@ -1,7 +1,3 @@
-import { StrictMode } from "react";
-// import App from "./App";
-import { renderToString } from "react-dom/server";
-import MovieDetails from "./views/MovieDetails";
 import type { Request, Response } from "express";
 import {
   createRequestHandler,
@@ -34,6 +30,7 @@ export async function render({
       return headers;
     })(),
   });
+  // WAY 1
 
   const handler = createRequestHandler({
     request,
@@ -53,6 +50,7 @@ export async function render({
       children: <RouterServer router={router} />,
     })
   );
+  // WAY 2
 
   res.statusMessage = response.statusText;
   res.status(response.status);

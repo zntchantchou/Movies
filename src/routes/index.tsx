@@ -1,7 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import ClientComp from "../components/ClientComp/ClientComp";
 
 export const Route = createFileRoute("/")({ component: Index });
 
 function Index() {
-  return <div>I am the home component</div>;
+  return (
+    <>
+      <ClientComp />;<p>Hello</p>;<div>I am the Index component haha</div>;
+    </>
+  );
 }

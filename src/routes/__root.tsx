@@ -6,8 +6,12 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "./root.scss";
 import type { RouterContext } from "../routerContext";
+import { useEffect } from "react";
 
 function RootLayout() {
+  useEffect(() => {
+    console.log("App useffect");
+  }, []);
   return (
     <>
       <div id="header">
@@ -23,6 +27,7 @@ function RootLayout() {
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     links: [{ rel: "icon", href: "/images/favicon.ico" }],
+    // TODO why am I not seeing these in the front-end?
     meta: [
       {
         title: "TanStack Router SSR Basic File Based Streaming",
@@ -36,9 +41,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
     ],
     scripts: [
-      {
-        src: "https://unpkg.com/@tailwindcss/browser@4",
-      },
       ...(!import.meta.env.PROD
         ? [
             {
