@@ -1,10 +1,6 @@
-import { StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
-import App from "./App.tsx";
+import { RouterClient } from "@tanstack/react-router/ssr/client";
+import { createRouter } from "./router.tsx";
 
-hydrateRoot(
-  document.getElementById("root")!,
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+const router = createRouter();
+hydrateRoot(document, <RouterClient router={router} />);

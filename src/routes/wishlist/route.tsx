@@ -1,3 +1,4 @@
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 function Wishlist() {
@@ -8,4 +9,6 @@ function Wishlist() {
   return <p>Wishlist</p>;
 }
 
-export default Wishlist;
+export const Route = createFileRoute("/wishlist")({
+  component: Wishlist,
+});
