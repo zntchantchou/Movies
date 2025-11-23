@@ -1,13 +1,7 @@
-// "use client";
-
-import { useEffect } from "react";
-import "./ClientComp.css";
+import "./ClientComp.scss";
 
 function ClientComp() {
-  useEffect(() => {
-    console.log("[clientcomp]");
-  }, []);
-  console.log("Hello");
+  console.log("Hello!");
   return (
     <>
       <div style={{ backgroundColor: "blue" }}>

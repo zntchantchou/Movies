@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import {
   createRequestHandler,
-  renderRouterToString,
+  renderRouterToStream,
   RouterServer,
 } from "@tanstack/react-router/ssr/server";
 import { createRouter } from "./router";
@@ -42,7 +42,8 @@ export async function render({
 
   const response = await handler(({ responseHeaders, router }) => {
     tanstackRouter = router;
-    return renderRouterToString({
+    return renderRouterToStream({
+      request,
       responseHeaders,
       router,
       children: <RouterServer router={router} />,
@@ -52,15 +53,14 @@ export async function render({
   res.statusMessage = response.statusText;
   res.status(response.status);
   response.headers.forEach((value, name) => res.setHeader(name, value));
+  const headHtml = tanstackRouter?.options.context?.head ?? "";
 
   // ----- NON-STREAMING -----
 
   // const appHtml = await response.text();
-  const headHtml = tanstackRouter?.options.context?.head ?? "";
   // const html = template
   // .replace("<!--app-head-->", headHtml)
   // .replace("<!--app-html-->", appHtml);
-
   // return res.send(html);
 
   // ----- STREAMING -----
@@ -71,7 +71,7 @@ export async function render({
   const nodeStream = Readable.fromWeb(response.body as WebStream);
   await new Promise<void>((resolve, reject) => {
     nodeStream.on("data", (chunk) => {
-      console.log("Data event ", chunk);
+      // console.log("Data event ", chunk);
       res.write(chunk);
     });
     nodeStream.on("end", () => resolve());

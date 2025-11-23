@@ -1,5 +1,0 @@
-{
-  "watch": ["src", "*.ts", "*.json", "*.html", "*.scss", "*.css"],
-  "exec": "ts-node server.ts",
-  "verbose": true
-}
