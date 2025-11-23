@@ -5,6 +5,8 @@ import {
   RouterServer,
 } from "@tanstack/react-router/ssr/server";
 import { createRouter } from "./router";
+import { Readable } from "node:stream";
+import { ReadableStream as WebStream } from "node:stream/web";
 
 export async function render({
   req,
@@ -51,11 +53,32 @@ export async function render({
   res.status(response.status);
   response.headers.forEach((value, name) => res.setHeader(name, value));
 
-  const appHtml = await response.text();
-  const headHtml = tanstackRouter?.options.context?.head ?? "";
-  const html = template
-    .replace("<!--app-head-->", headHtml)
-    .replace("<!--app-html-->", appHtml);
+  // ----- NON-STREAMING -----
 
-  return res.send(html);
+  // const appHtml = await response.text();
+  const headHtml = tanstackRouter?.options.context?.head ?? "";
+  // const html = template
+  // .replace("<!--app-head-->", headHtml)
+  // .replace("<!--app-html-->", appHtml);
+
+  // return res.send(html);
+
+  // ----- STREAMING -----
+  const splitTemplate = template.split("<!--app-html-->");
+  const templateStart = splitTemplate[0].replace("<!--app-head-->", headHtml);
+
+  res.write(templateStart);
+  const nodeStream = Readable.fromWeb(response.body as WebStream);
+  await new Promise<void>((resolve, reject) => {
+    nodeStream.on("data", (chunk) => {
+      console.log("Data event ", chunk);
+      res.write(chunk);
+    });
+    nodeStream.on("end", () => resolve());
+    nodeStream.on("error", reject);
+  });
+
+  const templateEnd = splitTemplate[1] ?? "";
+  res.write(templateEnd);
+  res.end();
 }
