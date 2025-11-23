@@ -2,22 +2,20 @@ import {
   createRootRouteWithContext,
   Link,
   Outlet,
+  Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "./root.scss";
 import type { RouterContext } from "../routerContext";
-import { useEffect } from "react";
 
 function RootLayout() {
-  useEffect(() => {
-    console.log("App useffect");
-  }, []);
   return (
     <>
       <div id="header">
         <Link to="/">Home</Link>
         <Link to="/wishlist">Wishlist</Link>
         <Outlet />
+        <Scripts />
         <TanStackRouterDevtools />
       </div>
     </>
@@ -27,7 +25,6 @@ function RootLayout() {
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
     links: [{ rel: "icon", href: "/images/favicon.ico" }],
-    // TODO why am I not seeing these in the front-end?
     meta: [
       {
         title: "TanStack Router SSR Basic File Based Streaming",
@@ -62,6 +59,10 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         src: import.meta.env.PROD
           ? "/dist/client/entry-client.js"
           : "/src/entry-client.tsx",
+      },
+      {
+        type: "module",
+        children: 'console.log("Script hoho")',
       },
     ],
   }),

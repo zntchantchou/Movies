@@ -14,6 +14,7 @@ const ssrBuildConfig: BuildEnvironmentOptions = {
   ssrEmitAssets: true,
   copyPublicDir: false,
   emptyOutDir: true,
+  assetsDir: "./assets",
   rollupOptions: {
     input: path.resolve(__dirname, "src/entry-server.tsx"),
     output: {
@@ -30,12 +31,13 @@ const clientBuildConfig: BuildEnvironmentOptions = {
   emitAssets: true,
   copyPublicDir: true,
   emptyOutDir: true,
+  assetsDir: "./assets",
   rollupOptions: {
     input: path.resolve(__dirname, "src/entry-client.tsx"),
     output: {
-      entryFileNames: "static/[name].js",
-      chunkFileNames: "static/assets/[name]-[hash].js",
-      assetFileNames: "static/assets/[name]-[hash][extname]",
+      entryFileNames: "[name].js",
+      chunkFileNames: "assets/[name]-[hash].js",
+      assetFileNames: "assets/[name]-[hash][extname]",
     },
   },
 };

@@ -1,14 +1,25 @@
 // "use client";
 
 import { useEffect } from "react";
-import "./ClientComp.scss";
+import "./ClientComp.css";
 
 function ClientComp() {
   useEffect(() => {
     console.log("[clientcomp]");
   }, []);
   console.log("Hello");
-  return <p className="root">Client Comp</p>;
+  return (
+    <>
+      <div style={{ backgroundColor: "blue" }}>
+        <p className="root" style={{ color: "green", fontSize: 40 }}>
+          Client Comp
+        </p>
+      </div>
+      <div className="root">
+        <p>Styled with scss !!</p>
+      </div>
+    </>
+  );
 }
 
 export default ClientComp;

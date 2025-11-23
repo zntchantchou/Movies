@@ -5,56 +5,57 @@ import {
   RouterServer,
 } from "@tanstack/react-router/ssr/server";
 import { createRouter } from "./router";
-import { Readable } from "node:stream";
-import { ReadableStream as WebStream } from "node:stream/web";
 
 export async function render({
   req,
   res,
-  head,
+  template,
 }: {
   req: Request;
   res: Response;
-  head: string;
+  template: string;
 }) {
   const url = new URL(req?.originalUrl || req.url, "http://localhost:3001")
     .href;
+
   const request = new Request(url, {
     method: req.method,
     headers: (() => {
       const headers = new Headers();
       for (const [key, value] of Object.entries(req.headers)) {
-        // @ts-expect-error we dont actually know what the headers might be...
-        headers.set(key, value as unknown);
+        if (typeof value === "string") headers.set(key, value);
+        else if (Array.isArray(value)) headers.set(key, value.join(","));
+        else if (value != null) headers.set(key, String(value));
       }
       return headers;
     })(),
   });
-  // WAY 1
+
+  let tanstackRouter: ReturnType<typeof createRouter> | undefined;
 
   const handler = createRequestHandler({
     request,
-    createRouter: () => {
-      const router = createRouter();
-      router.update({
-        context: { ...router.options.context, head: head },
-      });
-      return router;
-    },
+    createRouter: () => createRouter(),
   });
 
-  const response = await handler(({ responseHeaders, router }) =>
-    renderRouterToString({
+  const response = await handler(({ responseHeaders, router }) => {
+    tanstackRouter = router;
+    return renderRouterToString({
       responseHeaders,
       router,
       children: <RouterServer router={router} />,
-    })
-  );
-  // WAY 2
+    });
+  });
 
   res.statusMessage = response.statusText;
   res.status(response.status);
-
   response.headers.forEach((value, name) => res.setHeader(name, value));
-  return Readable.fromWeb(response.body as WebStream).pipe(res);
+
+  const appHtml = await response.text();
+  const headHtml = tanstackRouter?.options.context?.head ?? "";
+  const html = template
+    .replace("<!--app-head-->", headHtml)
+    .replace("<!--app-html-->", appHtml);
+
+  return res.send(html);
 }
