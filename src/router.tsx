@@ -1,21 +1,17 @@
 import { createRouter as createReactRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import NotFoundComponent from "./components/NotFound/NotFound";
+import httpClient from "./http/client";
+// import type { RouterContext } from "./routerContext";
 
-type InitialData = { fact: unknown };
-
-export function createRouter(data?: InitialData) {
-  const context: { head?: string; serverData?: unknown } = {
-    head: "",
-  };
-
-  // only provided on the server
-  if (data?.fact) context.serverData = data.fact;
-
+export function createRouter() {
+  console.log("HTTP CLIENT AT CREATE ROUTER ", httpClient);
   return createReactRouter({
+    context: {
+      head: "",
+      queryClient: httpClient,
+    },
     routeTree: routeTree,
-    // @ts-expect-error serverData = custom property
-    context: context,
     defaultPreload: "intent",
     scrollRestoration: true,
     defaultNotFoundComponent: NotFoundComponent,

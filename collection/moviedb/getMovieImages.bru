@@ -1,0 +1,20 @@
+meta {
+  name: getMovieImages
+  type: http
+  seq: 5
+}
+
+get {
+  url: https://api.themoviedb.org/3/movie/{{movie_id}}/images
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  : 
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

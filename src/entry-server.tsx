@@ -35,17 +35,9 @@ export async function render({
 
   let tanstackRouter: ReturnType<typeof createRouter> | undefined;
 
-  async function fetchFact() {
-    const data = await fetch("https://api.chucknorris.io/jokes/random");
-    const jsonData = await data.json();
-    console.log("CHUCK NORRIS asJson: ", jsonData);
-    return jsonData;
-  }
-  const fact = await fetchFact();
-  console.log("Router Data ", fact);
   const handler = createRequestHandler({
     request,
-    createRouter: () => createRouter({ fact }),
+    createRouter,
   });
 
   const response = await handler(({ responseHeaders, router }) => {
