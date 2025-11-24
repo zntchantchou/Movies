@@ -12,6 +12,8 @@ lerna-debug.log*
 logs
 dist
 .env
+.env.*
+collection/collection.bru
 instructions.md
 
 node_modules

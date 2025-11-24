@@ -1,0 +1,20 @@
+meta {
+  name: getNowPlaying
+  type: http
+  seq: 6
+}
+
+get {
+  url: https://api.themoviedb.org/3/genre/movie/list?language=en
+  body: none
+  auth: inherit
+}
+
+params:query {
+  language: en
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

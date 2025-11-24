@@ -42,13 +42,15 @@ const clientBuildConfig: BuildEnvironmentOptions = {
   },
 };
 // https://vite.dev/config/
-export default defineConfig((configEnv) => ({
-  plugins: [
-    tanstackRouter({
-      target: "react",
-      autoCodeSplitting: true,
-    }),
-    react(),
-  ],
-  build: configEnv.isSsrBuild ? ssrBuildConfig : clientBuildConfig,
-}));
+export default defineConfig(({ isSsrBuild }) => {
+  return {
+    plugins: [
+      tanstackRouter({
+        target: "react",
+        autoCodeSplitting: true,
+      }),
+      react(),
+    ],
+    build: isSsrBuild ? ssrBuildConfig : clientBuildConfig,
+  };
+});

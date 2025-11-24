@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node server.ts",
+    "dev": "node --env-file=.env server.ts",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
-    "preview": "cross-env NODE_ENV=production node server.ts",
+    "preview": "cross-env NODE_ENV=production node --env-file=.env server.ts",
     "debug": "node --inspect-brk server.ts",
     "lint": "eslint ."
   },

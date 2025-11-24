@@ -1,8 +1,5 @@
-// import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { getTodosQuery } from "../http/queries";
-// import { getTodos } from "../http/http";
-// import ClientComp from "../components/ClientComp/ClientComp";
+import { getPopularMoviesQuery } from "../http/queries";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -10,26 +7,18 @@ export const Route = createFileRoute("/")({
     // console.log("Content in loader :", context.queryClient);
     // request is only made on the server + sent to cache
     return context.queryClient.ensureQueryData({
-      ...getTodosQuery,
+      ...getPopularMoviesQuery,
       revalidateIfStale: true,
     });
   },
 });
 
-type Todo = {
-  id: number;
-  todo: string;
-  completed: boolean;
-  userId: number;
-};
 function Index() {
-  const apiData = Route.useLoaderData() as { todos: Todo[] };
+  const popularMovies = Route.useLoaderData();
+  console.log("POPULAR MOVIE CLIENT: ", popularMovies);
   return (
     <>
       <p>FACTS: </p>
-      {apiData.todos
-        ? apiData.todos.map((t) => <div key={t.id}>{t.todo}</div>)
-        : null}
       {/* <ClientComp /> */}
     </>
   );
