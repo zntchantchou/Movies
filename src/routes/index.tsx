@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getPopularMoviesQuery } from "../http/queries";
+import { getHomePageMoviesQuery } from "../http/queries";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -7,19 +7,20 @@ export const Route = createFileRoute("/")({
     // console.log("Content in loader :", context.queryClient);
     // request is only made on the server + sent to cache
     return context.queryClient.ensureQueryData({
-      ...getPopularMoviesQuery,
+      ...getHomePageMoviesQuery,
       revalidateIfStale: true,
     });
   },
 });
 
 function Index() {
-  const popularMovies = Route.useLoaderData();
-  console.log("POPULAR MOVIE CLIENT: ", popularMovies);
+  const movies = Route.useLoaderData();
+  // const formattedMovies = formatMovies(popularMovies);
+  console.log("POPULAR MOVIE CLIENT: ", movies?.popular.length);
+  // console.log("Formatted ", formattedMovies);
   return (
     <>
       <p>FACTS: </p>
-      {/* <ClientComp /> */}
     </>
   );
 }
