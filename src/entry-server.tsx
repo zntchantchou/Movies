@@ -5,8 +5,8 @@ import {
   RouterServer,
 } from "@tanstack/react-router/ssr/server";
 import { createRouter } from "./router";
-import { Readable } from "node:stream";
-import { ReadableStream as WebStream } from "node:stream/web";
+// import { Readable } from "node:stream";
+// import { ReadableStream as WebStream } from "node:stream/web";
 
 export async function render({
   req,
@@ -35,9 +35,17 @@ export async function render({
 
   let tanstackRouter: ReturnType<typeof createRouter> | undefined;
 
+  async function fetchFact() {
+    const data = await fetch("https://api.chucknorris.io/jokes/random");
+    const jsonData = await data.json();
+    console.log("CHUCK NORRIS asJson: ", jsonData);
+    return jsonData;
+  }
+  const fact = await fetchFact();
+  console.log("Router Data ", fact);
   const handler = createRequestHandler({
     request,
-    createRouter: () => createRouter(),
+    createRouter: () => createRouter({ fact }),
   });
 
   const response = await handler(({ responseHeaders, router }) => {
@@ -57,28 +65,28 @@ export async function render({
 
   // ----- NON-STREAMING -----
 
-  // const appHtml = await response.text();
-  // const html = template
-  // .replace("<!--app-head-->", headHtml)
-  // .replace("<!--app-html-->", appHtml);
-  // return res.send(html);
+  const appHtml = await response.text();
+  const html = template
+    .replace("<!--app-head-->", headHtml)
+    .replace("<!--app-html-->", appHtml);
+  return res.send(html);
 
   // ----- STREAMING -----
-  const splitTemplate = template.split("<!--app-html-->");
-  const templateStart = splitTemplate[0].replace("<!--app-head-->", headHtml);
+  // const splitTemplate = template.split("<!--app-html-->");
+  // const templateStart = splitTemplate[0].replace("<!--app-head-->", headHtml);
 
-  res.write(templateStart);
-  const nodeStream = Readable.fromWeb(response.body as WebStream);
-  await new Promise<void>((resolve, reject) => {
-    nodeStream.on("data", (chunk) => {
-      // console.log("Data event ", chunk);
-      res.write(chunk);
-    });
-    nodeStream.on("end", () => resolve());
-    nodeStream.on("error", reject);
-  });
+  // res.write(templateStart);
+  // const nodeStream = Readable.fromWeb(response.body as WebStream);
+  // await new Promise<void>((resolve, reject) => {
+  //   nodeStream.on("data", (chunk) => {
+  //     // console.log("Data event ", chunk);
+  //     res.write(chunk);
+  //   });
+  //   nodeStream.on("end", () => resolve());
+  //   nodeStream.on("error", reject);
+  // });
 
-  const templateEnd = splitTemplate[1] ?? "";
-  res.write(templateEnd);
-  res.end();
+  // const templateEnd = splitTemplate[1] ?? "";
+  // res.write(templateEnd);
+  // res.end();
 }
