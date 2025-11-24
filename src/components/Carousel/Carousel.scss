@@ -1,17 +1,47 @@
 
 .carousel {
   background: #EEE;
-  height:200px;
+  height:16rem;
 }
 
 .carousel-cell {
-  width: 25%;
-  height: 200px;
+  height:16rem;
   margin-right: 10px;
   background: #8C8;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  // background-size: contain !important;
+  background-size: 80% 100% !important;
 }
+
 
 .carousel-cell.is-selected {
   background: #ED2;
+}
+
+// Small devices
+@media (max-width: 480px) {
+  .carousel-cell {
+    width: 80%;
+  }
+}
+
+// Medium devices
+@media (min-width: 480px) and (max-width: 767px) {
+  .carousel-cell {
+    width: 33%;
+  }
+}
+
+// Larger devices
+@media (min-width: 767px) {
+  .carousel-cell {
+    width:16%;
+    min-width: 14rem;
+  }
 }

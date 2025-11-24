@@ -25,7 +25,7 @@ function Index() {
   return (
     <>
       <p>FACTS: </p>
-      <Carousel items={formattedMovies} />
+      <Carousel title="Popular movies" items={formattedMovies} />
     </>
   );
 }
