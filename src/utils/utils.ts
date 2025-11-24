@@ -9,7 +9,7 @@ type ApiMovie = {
   original_language: string;
   original_title: string;
 };
-type ClientMovie = {
+export type ClientMovie = {
   title: string;
   id: number;
   posterPath: string;

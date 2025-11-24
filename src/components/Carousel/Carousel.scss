@@ -1,0 +1,17 @@
+
+.carousel {
+  background: #EEE;
+  height:200px;
+}
+
+.carousel-cell {
+  width: 25%;
+  height: 200px;
+  margin-right: 10px;
+  background: #8C8;
+  border-radius: 5px;
+}
+
+.carousel-cell.is-selected {
+  background: #ED2;
+}
