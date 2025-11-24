@@ -1,31 +1,49 @@
 
 .carousel {
-  background: #EEE;
-  height:16rem;
+  // background: #EEE;
+  height:18rem;
+  margin-bottom: 3rem;
+}
+
+.carousel-title {
+  font-size: 1.6rem;
+  padding:.6rem;
 }
 
 .carousel-cell {
-  height:16rem;
+  height:18rem;
   margin-right: 10px;
-  background: #8C8;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+}
+.poster {
+  height: 90%;
+  width: 100%;
   background-position: center !important;
   background-repeat: no-repeat !important;
-  // background-size: contain !important;
-  background-size: 80% 100% !important;
+  background-size:90% 100% !important;
 }
 
-
-.carousel-cell.is-selected {
-  background: #ED2;
+.carousel-cell:hover {
+  opacity: 0.9;
 }
+
+// .carousel-cell.is-selected {}
+
+.title {
+  margin-top: .8rem;
+  
+}
+
 
 // Small devices
 @media (max-width: 480px) {
+  .flickity-page-dots {
+    display: none;
+  }
   .carousel-cell {
     width: 80%;
   }

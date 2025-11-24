@@ -1,6 +1,5 @@
 import {
   createRootRouteWithContext,
-  Link,
   Outlet,
   Scripts,
 } from "@tanstack/react-router";
@@ -9,6 +8,7 @@ import "./root.scss";
 import type { RouterContext } from "../routerContext";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Header from "../components/Header/Header";
 
 function RootLayout() {
   const [queryClient] = useState(
@@ -23,13 +23,10 @@ function RootLayout() {
   );
   return (
     <QueryClientProvider client={queryClient}>
-      <div id="header">
-        <Link to="/">Home</Link>
-        <Link to="/wishlist">Wishlist</Link>
-        <Outlet />
-        <Scripts />
-        <TanStackRouterDevtools />
-      </div>
+      <Header />
+      <Outlet />
+      <Scripts />
+      <TanStackRouterDevtools />
     </QueryClientProvider>
   );
 }
