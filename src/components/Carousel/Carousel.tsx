@@ -8,7 +8,7 @@ interface CarouselProps {
   items: ClientMovie[];
   title: string;
 }
-// const IMAGES_URL = "https://image.tmdb.org/t/p/w154";
+
 const IMAGES_URL = "https://image.tmdb.org/t/p/w500";
 
 function Carousel({ items, title }: CarouselProps) {

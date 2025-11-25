@@ -1,8 +1,16 @@
 import { hydrateRoot } from "react-dom/client";
 import { RouterClient } from "@tanstack/react-router/ssr/client";
 import { createRouter } from "./router.tsx";
+// import httpClient from "./http/client.ts";
+import { hydrate, QueryClient } from "@tanstack/react-query";
 
-const router = createRouter();
+const queryClient = new QueryClient();
+
+const dehydrated = (window as any).__TANSTACK_QUERY_STATE__; // eslint-disable-line
+
+hydrate(queryClient, dehydrated);
+
+const router = createRouter({ head: "", queryClient });
 
 hydrateRoot(
   document.getElementById("root") as HTMLElement,

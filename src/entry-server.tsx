@@ -1,10 +1,13 @@
 import type { Request, Response } from "express";
+import httpClient from "./http/client";
 import {
   createRequestHandler,
-  renderRouterToStream,
+  renderRouterToString,
   RouterServer,
 } from "@tanstack/react-router/ssr/server";
 import { createRouter } from "./router";
+import { dehydrate, QueryClientProvider } from "@tanstack/react-query";
+import { createMemoryHistory } from "@tanstack/react-router";
 // import { Readable } from "node:stream";
 // import { ReadableStream as WebStream } from "node:stream/web";
 
@@ -34,19 +37,30 @@ export async function render({
   });
 
   let tanstackRouter: ReturnType<typeof createRouter> | undefined;
+  const history = createMemoryHistory({ initialEntries: [url] });
+  const router = createRouter({ head: "", queryClient: httpClient }, history);
+  // triggers loaders which should trigger retrieving the cache on the front-end
+  await router.load({ sync: true });
+  // load route
+  const dehydrated = dehydrate(httpClient);
 
   const handler = createRequestHandler({
     request,
-    createRouter,
+    createRouter: () => router,
   });
 
   const response = await handler(({ responseHeaders, router }) => {
     tanstackRouter = router;
-    return renderRouterToStream({
-      request,
+    const children = (
+      <QueryClientProvider client={httpClient}>
+        <RouterServer router={router} />
+      </QueryClientProvider>
+    );
+    return renderRouterToString({
+      // request,
       responseHeaders,
       router,
-      children: <RouterServer router={router} />,
+      children,
     });
   });
 
@@ -60,9 +74,13 @@ export async function render({
   const appHtml = await response.text();
   const html = template
     .replace("<!--app-head-->", headHtml)
-    .replace("<!--app-html-->", appHtml);
-  return res.send(html);
-
+    .replace("<!--app-html-->", appHtml)
+    .replace(
+      "<!--ssr-data-->",
+      `<script>window.__TANSTACK_QUERY_STATE__=${JSON.stringify(dehydrated)}</script>`
+    );
+  res.send(html);
+  return { html, dehydrated };
   // ----- STREAMING -----
   // const splitTemplate = template.split("<!--app-html-->");
   // const templateStart = splitTemplate[0].replace("<!--app-head-->", headHtml);

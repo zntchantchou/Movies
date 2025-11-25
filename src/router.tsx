@@ -1,16 +1,16 @@
-import { createRouter as createReactRouter } from "@tanstack/react-router";
+import {
+  createRouter as createReactRouter,
+  type RouterHistory,
+} from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import NotFoundComponent from "./components/NotFound/NotFound";
-import httpClient from "./http/client";
-// import type { RouterContext } from "./routerContext";
+import type { RouterContext } from "./routerContext";
 
-export function createRouter() {
-  console.log("HTTP CLIENT AT CREATE ROUTER ", httpClient);
+export function createRouter(context: RouterContext, history?: RouterHistory) {
+  const routerHistory = history ? { history } : {};
   return createReactRouter({
-    context: {
-      head: "",
-      queryClient: httpClient,
-    },
+    ...routerHistory,
+    context,
     routeTree: routeTree,
     defaultPreload: "intent",
     scrollRestoration: true,
