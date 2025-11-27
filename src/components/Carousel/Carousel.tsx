@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { ClientMovie } from "../../utils/utils";
 import "./Carousel.scss";
+import { useNavigate } from "@tanstack/react-router";
 
 interface CarouselProps {
   items: ClientMovie[];
@@ -44,10 +45,16 @@ function Carousel({ items, title }: CarouselProps) {
 }
 
 function CarouselItem({ item }: { item: ClientMovie }) {
+  const navigate = useNavigate({ from: "/" });
   const filmTitle =
     item.title.length > 25 ? `${item.title.slice(0, 25)}..` : item.title;
   return (
-    <div className="carousel-cell">
+    <div
+      className="carousel-cell"
+      onClick={() => {
+        navigate({ to: `/movie/${item.id}` });
+      }}
+    >
       <div
         className="poster"
         style={{

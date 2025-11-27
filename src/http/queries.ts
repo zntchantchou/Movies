@@ -8,23 +8,7 @@ const MOVIE_GENRES = {
 
 const API_URL = "https://api.themoviedb.org/3";
 
-async function getTodos() {
-  try {
-    const response = await fetch("https://dummyjson.com/todos");
-    console.log("[getTodos] RUNNING ==> NOT CACHED");
-    return response.json();
-  } catch (e) {
-    console.log("[getTodos] ", e);
-  }
-}
-
 const staleTimeAsMinutes = 120;
-
-export const getTodosQuery = queryOptions({
-  queryFn: getTodos,
-  queryKey: ["todos"],
-  staleTime: 1000 * 60 * staleTimeAsMinutes,
-});
 
 async function getHomePageMovies() {
   // try to still return value if there is an error.
@@ -46,7 +30,7 @@ async function getPopularMovies() {
     const url = `${API_URL}/movie/popular`;
     const response = await fetch(url, { headers });
     const parsedMovies = await response.json();
-    console.log("[getPopularMovies] RUNNING ==> NOT CACHED", parsedMovies);
+    console.log("[getPopularMovies] RUNNING ==> NOT CACHED");
     return parsedMovies.results;
   } catch (e) {
     console.log("[getPopularMovies] ", e);
@@ -68,16 +52,33 @@ async function getDocumentaries() {
   }
 }
 
-// export const getPopularMoviesQuery = queryOptions({
-//   queryFn: getPopularMovies,
-//   queryKey: ["popularMovies"],
-//   // refetching the movies on the home page should only happen at most once per hour (24 times a day)
-//   staleTime: 1000 * 60 * staleTimeAsMinutes,
-// });
-
 export const getHomePageMoviesQuery = queryOptions({
   queryFn: getHomePageMovies,
   queryKey: ["homepage"],
   // refetching the movies on the home page should only happen at most once per hour (24 times a day)
   staleTime: 1000 * 60 * staleTimeAsMinutes,
 });
+
+async function getMovieDetails(movieId: string) {
+  const headers = new Headers();
+  if (process.env)
+    headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
+  try {
+    const url = `${API_URL}/movie/${movieId}`;
+    const response = await fetch(url, { headers });
+    const parsedMovies = await response.json();
+    console.log("[getMovieDetails] RUNNING ==> NOT CACHED", parsedMovies);
+    return parsedMovies.results;
+  } catch (e) {
+    console.log("[getMovieDetails] error", e);
+  }
+}
+
+export const getMovieDetailsQuery = (movieId: string) => {
+  return queryOptions({
+    queryFn: async () => getMovieDetails(movieId),
+    queryKey: [`movie/${movieId}`],
+    // refetching the movie details should only happen at most once per hour (24 times a day)
+    staleTime: 1000 * 60 * staleTimeAsMinutes,
+  });
+};

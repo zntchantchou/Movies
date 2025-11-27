@@ -8,8 +8,6 @@ import {
 import { createRouter } from "./router";
 import { dehydrate, QueryClientProvider } from "@tanstack/react-query";
 import { createMemoryHistory } from "@tanstack/react-router";
-// import { Readable } from "node:stream";
-// import { ReadableStream as WebStream } from "node:stream/web";
 
 export async function render({
   req,
@@ -39,7 +37,6 @@ export async function render({
   let tanstackRouter: ReturnType<typeof createRouter> | undefined;
   const history = createMemoryHistory({ initialEntries: [url] });
   const router = createRouter({ head: "", queryClient: httpClient }, history);
-  // triggers loaders which should trigger retrieving the cache on the front-end
   await router.load({ sync: true });
   // load route
   const dehydrated = dehydrate(httpClient);
@@ -57,7 +54,6 @@ export async function render({
       </QueryClientProvider>
     );
     return renderRouterToString({
-      // request,
       responseHeaders,
       router,
       children,
@@ -68,9 +64,6 @@ export async function render({
   res.status(response.status);
   response.headers.forEach((value, name) => res.setHeader(name, value));
   const headHtml = tanstackRouter?.options.context?.head ?? "";
-
-  // ----- NON-STREAMING -----
-
   const appHtml = await response.text();
   const html = template
     .replace("<!--app-head-->", headHtml)
@@ -81,22 +74,4 @@ export async function render({
     );
   res.send(html);
   return { html, dehydrated };
-  // ----- STREAMING -----
-  // const splitTemplate = template.split("<!--app-html-->");
-  // const templateStart = splitTemplate[0].replace("<!--app-head-->", headHtml);
-
-  // res.write(templateStart);
-  // const nodeStream = Readable.fromWeb(response.body as WebStream);
-  // await new Promise<void>((resolve, reject) => {
-  //   nodeStream.on("data", (chunk) => {
-  //     // console.log("Data event ", chunk);
-  //     res.write(chunk);
-  //   });
-  //   nodeStream.on("end", () => resolve());
-  //   nodeStream.on("error", reject);
-  // });
-
-  // const templateEnd = splitTemplate[1] ?? "";
-  // res.write(templateEnd);
-  // res.end();
 }

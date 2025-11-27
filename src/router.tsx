@@ -5,6 +5,7 @@ import {
 import { routeTree } from "./routeTree.gen";
 import NotFoundComponent from "./components/NotFound/NotFound";
 import type { RouterContext } from "./routerContext";
+import ErrorPage from "./components/ErrorPage/ErrorPage";
 
 export function createRouter(context: RouterContext, history?: RouterHistory) {
   const routerHistory = history ? { history } : {};
@@ -14,6 +15,7 @@ export function createRouter(context: RouterContext, history?: RouterHistory) {
     routeTree: routeTree,
     defaultPreload: "intent",
     scrollRestoration: true,
+    defaultErrorComponent: ErrorPage,
     defaultNotFoundComponent: NotFoundComponent,
   });
 }

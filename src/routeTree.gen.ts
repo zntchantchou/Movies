@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishlistRouteRouteImport } from './routes/wishlist/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MovieMovieIdRouteImport } from './routes/movie/$movieId'
 
 const WishlistRouteRoute = WishlistRouteRouteImport.update({
   id: '/wishlist',
@@ -22,31 +23,40 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MovieMovieIdRoute = MovieMovieIdRouteImport.update({
+  id: '/movie/$movieId',
+  path: '/movie/$movieId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/wishlist': typeof WishlistRouteRoute
+  '/movie/$movieId': typeof MovieMovieIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/wishlist': typeof WishlistRouteRoute
+  '/movie/$movieId': typeof MovieMovieIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/wishlist': typeof WishlistRouteRoute
+  '/movie/$movieId': typeof MovieMovieIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/wishlist'
+  fullPaths: '/' | '/wishlist' | '/movie/$movieId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/wishlist'
-  id: '__root__' | '/' | '/wishlist'
+  to: '/' | '/wishlist' | '/movie/$movieId'
+  id: '__root__' | '/' | '/wishlist' | '/movie/$movieId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   WishlistRouteRoute: typeof WishlistRouteRoute
+  MovieMovieIdRoute: typeof MovieMovieIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/movie/$movieId': {
+      id: '/movie/$movieId'
+      path: '/movie/$movieId'
+      fullPath: '/movie/$movieId'
+      preLoaderRoute: typeof MovieMovieIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   WishlistRouteRoute: WishlistRouteRoute,
+  MovieMovieIdRoute: MovieMovieIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
