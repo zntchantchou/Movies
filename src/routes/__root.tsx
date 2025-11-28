@@ -4,9 +4,9 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { useState } from "react";
 import "./root.scss";
 import type { RouterContext } from "../routerContext";
-import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Header from "../components/Header/Header";
 
@@ -24,7 +24,9 @@ function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <Header />
-      <Outlet />
+      <div id="content">
+        <Outlet />
+      </div>
       <Scripts />
       <TanStackRouterDevtools />
     </QueryClientProvider>

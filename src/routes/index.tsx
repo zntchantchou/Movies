@@ -19,9 +19,9 @@ function Index() {
   const popularMovies = formatMovies(movies?.popular);
   const documentaries = formatMovies(movies?.documentaries);
   return (
-    <div id="content">
+    <>
       <Carousel title="Popular movies" items={popularMovies} />
       <Carousel title="Documentaries" items={documentaries} />
-    </div>
+    </>
   );
 }
