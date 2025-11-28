@@ -1,9 +1,13 @@
-import MemCached from "memcached";
+import nodeCache from "node-cache";
 
-const cache = new MemCached("127.0.0.1:3003", {
-  namespace: "movie",
-  maxKeySize: 20,
-  maxExpiration: 12 * 60 * 60,
+// movie details get cached for 12 hours
+
+const ttl = 60 * 60 * 12; // testing
+const cache = new nodeCache({ stdTTL: ttl, checkperiod: ttl });
+
+cache.on("expired", function (k, v) {
+  console.log("[CACHE EXPIRATION] key: ", k, " value: ", v);
+  cache.del(k);
 });
 
 export default cache;

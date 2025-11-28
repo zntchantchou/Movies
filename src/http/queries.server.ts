@@ -13,6 +13,7 @@ const staleTimeAsMinutes = 120;
 async function getHomePageMovies() {
   // try to still return value if there is an error.
   // Also send an error if there is one
+  // Also promise.all the whole thing
   try {
     const documentaries = await getDocumentaries();
     const popularMovies = await getPopularMovies();
@@ -59,7 +60,7 @@ export const getHomePageMoviesQuery = queryOptions({
   staleTime: 1000 * 60 * staleTimeAsMinutes,
 });
 
-async function getMovieDetails(movieId: string) {
+export async function getCloudMovieDetails(movieId: string) {
   const headers = new Headers();
   if (process.env)
     headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
@@ -67,18 +68,8 @@ async function getMovieDetails(movieId: string) {
     const url = `${API_URL}/movie/${movieId}`;
     const response = await fetch(url, { headers });
     const parsedMovies = await response.json();
-    console.log("[getMovieDetails] RUNNING ==> NOT CACHED", parsedMovies);
-    return parsedMovies.results;
+    return parsedMovies;
   } catch (e) {
     console.log("[getMovieDetails] error", e);
   }
 }
-
-export const getMovieDetailsQuery = (movieId: string) => {
-  return queryOptions({
-    queryFn: async () => getMovieDetails(movieId),
-    queryKey: [`movie/${movieId}`],
-    // refetching the movie details should only happen at most once per hour (24 times a day)
-    staleTime: 1000 * 60 * staleTimeAsMinutes,
-  });
-};

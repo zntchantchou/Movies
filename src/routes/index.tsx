@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getHomePageMoviesQuery } from "../http/queries";
+import { getHomePageMoviesQuery } from "../http/queries.server";
 import { formatMovies } from "../utils/utils";
 import Carousel from "../components/Carousel/Carousel";
 

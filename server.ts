@@ -2,8 +2,9 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import type { ViteDevServer } from "vite";
-// import Memcached from "memcached";
 import cache from "./src/cache.ts";
+import { getCloudMovieDetails } from "./src/http/queries.server.ts";
+import config from "./src/config.ts";
 
 export async function createServer(
   root = process.cwd(),
@@ -42,24 +43,23 @@ export async function createServer(
   app.get("/movie-details/:id", async (req, res) => {
     // id must be validated
     // send error if input is not exactly seven digit integer
-    console.log("The id : ", req.params.id);
+    // only allow access from the client (using a key that should not appear on the front-end?) filter req.origin using domain-name + page?
     const movieId = req.params.id;
+    const cached = cache.get(movieId);
     let movieData;
-    // console.log("cache ", cache);
-    cache.get(movieId, (err, data) => {
-      if (err) {
-        console.log("Error at movie-details: ", err);
-        return;
+    if (cached) return res.send(cached);
+    if (!cached) {
+      try {
+        movieData = await getCloudMovieDetails(movieId);
+        cache.set(movieId, movieData);
+      } catch (e) {
+        console.log("ERROR FETCHING MOVIE DETAILS ", e);
       }
-      movieData = data;
-    });
-    console.log("Movie Data ", movieData);
-    // if data in cache, return cached data
-    // if cache miss, fetch the data + cache it
-    return res.send("/movie-details/:id");
+    }
+    return res.send(movieData);
   });
 
-  app.get("/", async (req, res) => {
+  app.get("*all", async (req, res) => {
     try {
       const url = req.originalUrl;
 
@@ -98,5 +98,5 @@ export async function createServer(
 }
 
 createServer().then(({ app }) => {
-  app.listen(3002, () => console.log(`App listening on port ${3002}`));
+  app.listen(config.port, () => console.log(`App listening on port ${3002}`));
 });

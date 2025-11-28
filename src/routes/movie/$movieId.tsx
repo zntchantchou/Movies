@@ -1,20 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
-// import { getMovieDetailsQuery } from "../../http/queries";
-import ErrorPage from "../../components/ErrorPage/ErrorPage";
+import { useQuery } from "@tanstack/react-query";
 import "./MovieDetails.scss";
-
-function MovieDetails() {
-  console.log("Movie Details Page");
-  return <p>I am a Movie</p>;
-}
+import { getApiMovieDetailsQuery } from "../../http/queries.client";
+import ErrorPage from "../../components/ErrorPage/ErrorPage";
 
 export const Route = createFileRoute(`/movie/$movieId`)({
   component: MovieDetails,
   errorComponent: ErrorPage,
-  // loader: ({ context, params }) => {
-  //   return context.queryClient.ensureQueryData({
-  //     ...getMovieDetailsQuery(params.movieId),
-  //     revalidateIfStale: true,
-  //   });
-  // },
 });
+
+function MovieDetails() {
+  const { movieId } = Route.useParams();
+  const { isPending, isError, data, error } = useQuery(
+    getApiMovieDetailsQuery(movieId)
+  );
+  if (isPending) {
+    return <span>Loading...</span>;
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+
+  console.log("Movie Details Page", isPending, isError, data);
+  return <p>{JSON.stringify(data)}</p>;
+}
