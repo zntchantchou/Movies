@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import "./MovieDetails.scss";
 import { getApiMovieDetailsQuery } from "../../http/queries.client";
 import ErrorPage from "../../components/ErrorPage/ErrorPage";
+import MoviePage from "../../components/MoviePage/MoviePage";
 
 export const Route = createFileRoute(`/movie/$movieId`)({
   component: MovieDetails,
@@ -23,5 +24,5 @@ function MovieDetails() {
   }
 
   console.log("Movie Details Page", isPending, isError, data);
-  return <p>{JSON.stringify(data)}</p>;
+  return <MoviePage data={data} />;
 }
