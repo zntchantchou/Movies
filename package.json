@@ -16,9 +16,11 @@
     "@tanstack/react-query": "^5.90.10",
     "@tanstack/react-router": "^1.139.0",
     "@tanstack/router-plugin": "^1.139.0",
+    "@types/memcached": "^2.2.10",
     "cross-env": "^10.1.0",
     "express": "^5.1.0",
     "flickity": "^3.0.0",
+    "memcached": "^2.2.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
