@@ -18,10 +18,14 @@ function Index() {
   const movies = Route.useLoaderData();
   const popularMovies = formatMovies(movies?.popular);
   const documentaries = formatMovies(movies?.documentaries);
+  const comedies = formatMovies(movies?.comedies);
+  const historyMovies = formatMovies(movies?.history);
   return (
     <>
       <Carousel title="Popular movies" items={popularMovies} />
       <Carousel title="Documentaries" items={documentaries} />
+      <Carousel title="Comedies" items={comedies} />
+      <Carousel title="History" items={historyMovies} />
     </>
   );
 }

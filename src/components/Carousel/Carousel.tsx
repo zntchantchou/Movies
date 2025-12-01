@@ -46,8 +46,10 @@ function Carousel({ items, title }: CarouselProps) {
 
 function CarouselItem({ item }: { item: ClientMovie }) {
   const navigate = useNavigate({ from: "/" });
+  // const imgUrl = `url(${IMAGES_URL + item.posterPath})`;
+  const imgUrl = `${IMAGES_URL + item.posterPath}`;
   const filmTitle =
-    item.title.length > 25 ? `${item.title.slice(0, 25)}..` : item.title;
+    item.title.length > 25 ? `${item.title.slice(0, 22)}..` : item.title;
   return (
     <div
       className="carousel-cell"
@@ -55,12 +57,7 @@ function CarouselItem({ item }: { item: ClientMovie }) {
         navigate({ to: `/movie/${item.id}` });
       }}
     >
-      <div
-        className="poster"
-        style={{
-          backgroundImage: `url(${IMAGES_URL + item.posterPath})`,
-        }}
-      ></div>
+      <img src={imgUrl} alt={item.title} />
       <div className="title">{filmTitle}</div>
     </div>
   );

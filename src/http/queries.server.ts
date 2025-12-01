@@ -1,10 +1,12 @@
 import { queryOptions } from "@tanstack/react-query";
 
 const MOVIE_GENRES = {
-  animation: 16,
-  action: 28,
-  documentary: 99,
-};
+  ANIMATION: 16,
+  ACTION: 28,
+  DOCUMENTARY: 99,
+  COMEDY: 35,
+  HISTORY: 36,
+} as const;
 
 const API_URL = "https://api.themoviedb.org/3";
 
@@ -15,9 +17,11 @@ async function getHomePageMovies() {
   // Also send an error if there is one
   // Also promise.all the whole thing
   try {
-    const documentaries = await getDocumentaries();
+    const documentaries = await getMoviesByGenre(MOVIE_GENRES.DOCUMENTARY);
+    const comedies = await getMoviesByGenre(MOVIE_GENRES.COMEDY);
+    const history = await getMoviesByGenre(MOVIE_GENRES.HISTORY);
     const popularMovies = await getPopularMovies();
-    return { documentaries, popular: popularMovies };
+    return { documentaries, popular: popularMovies, comedies, history };
   } catch (e) {
     console.log("Error in getHomePageMovies : ", e);
   }
@@ -38,15 +42,17 @@ async function getPopularMovies() {
   }
 }
 
-async function getDocumentaries() {
+type MovieGenre = (typeof MOVIE_GENRES)[keyof typeof MOVIE_GENRES];
+async function getMoviesByGenre(genre: MovieGenre) {
   const headers = new Headers();
   if (process.env)
     headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
   try {
-    const url = `${API_URL}/discover/movie?with_genres=${MOVIE_GENRES.documentary}`;
+    const url = `${API_URL}/discover/movie?with_genres=${genre}`;
     const response = await fetch(url, { headers });
     const parsedMovies = await response.json();
-    console.log("[getDocumentaries] RUNNING ==> NOT CACHED");
+    console.log("[getMoviesByGenre] RUNNING ==> NOT CACHED");
+    console.log("[getMoviesByGenre] GENRE ==> ", genre);
     return parsedMovies.results;
   } catch (e) {
     console.log("[getDocumentaries] ", e);

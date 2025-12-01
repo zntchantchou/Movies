@@ -11,6 +11,6 @@
 #content {
   overflow-y: auto;
   margin-top: 4rem;
-  height: 100%;
+  height: calc(100vh - 4rem);
   width: 100%;
 }

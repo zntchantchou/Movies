@@ -1,0 +1,20 @@
+meta {
+  name: getConfiguration
+  type: http
+  seq: 9
+}
+
+get {
+  url: https://api.themoviedb.org/3/discover/movie?with_genres=28
+  body: none
+  auth: inherit
+}
+
+params:query {
+  with_genres: 28
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
