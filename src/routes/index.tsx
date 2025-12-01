@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { getHomePageMoviesQuery } from "../http/queries.server";
 import { formatMovies } from "../utils/utils";
 import Carousel from "../components/Carousel/Carousel";
+import TopBanner from "../components/TopBanner/TopBanner";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -20,8 +21,11 @@ function Index() {
   const documentaries = formatMovies(movies?.documentaries);
   const comedies = formatMovies(movies?.comedies);
   const historyMovies = formatMovies(movies?.history);
+  const nowPlayingMovies = formatMovies(movies?.nowPlaying);
+
   return (
     <>
+      <TopBanner items={nowPlayingMovies} />
       <Carousel title="Popular movies" items={popularMovies} />
       <Carousel title="Documentaries" items={documentaries} />
       <Carousel title="Comedies" items={comedies} />

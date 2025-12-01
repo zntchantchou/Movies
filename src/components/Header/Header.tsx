@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import "./Header.scss";
 
 function Header() {
@@ -8,7 +8,7 @@ function Header() {
       <div onClick={() => navigate({ to: "/" })} id="website-title">
         Movies
       </div>
-      <Link to="/wishlist">Wishlist</Link>
+      {/* <Link to="/wishlist">Wishlist</Link> */}
     </div>
   );
 }

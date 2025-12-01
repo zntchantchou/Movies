@@ -21,7 +21,14 @@ async function getHomePageMovies() {
     const comedies = await getMoviesByGenre(MOVIE_GENRES.COMEDY);
     const history = await getMoviesByGenre(MOVIE_GENRES.HISTORY);
     const popularMovies = await getPopularMovies();
-    return { documentaries, popular: popularMovies, comedies, history };
+    const nowPlayingMovies = await getNowPlayingMovies();
+    return {
+      documentaries,
+      popular: popularMovies,
+      comedies,
+      history,
+      nowPlaying: nowPlayingMovies,
+    };
   } catch (e) {
     console.log("Error in getHomePageMovies : ", e);
   }
@@ -42,7 +49,23 @@ async function getPopularMovies() {
   }
 }
 
+async function getNowPlayingMovies() {
+  const headers = new Headers();
+  if (process.env)
+    headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
+  try {
+    const url = `${API_URL}/movie/now_playing`;
+    const response = await fetch(url, { headers });
+    const parsedMovies = await response.json();
+    console.log("[getNowPlaying] RUNNING ==> NOT CACHED");
+    return parsedMovies.results;
+  } catch (e) {
+    console.log("[getNowPlaying] ", e);
+  }
+}
+
 type MovieGenre = (typeof MOVIE_GENRES)[keyof typeof MOVIE_GENRES];
+
 async function getMoviesByGenre(genre: MovieGenre) {
   const headers = new Headers();
   if (process.env)
