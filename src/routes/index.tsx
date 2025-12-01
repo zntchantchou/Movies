@@ -3,6 +3,7 @@ import { getHomePageMoviesQuery } from "../http/queries.server";
 import { formatMovies } from "../utils/utils";
 import Carousel from "../components/Carousel/Carousel";
 import TopBanner from "../components/TopBanner/TopBanner";
+import TopCarousel from "../components/TopCarousel/TopCarousel";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -26,6 +27,7 @@ function Index() {
   return (
     <>
       <TopBanner items={nowPlayingMovies} />
+      <TopCarousel items={nowPlayingMovies} />
       <Carousel title="Popular movies" items={popularMovies} />
       <Carousel title="Documentaries" items={documentaries} />
       <Carousel title="Comedies" items={comedies} />

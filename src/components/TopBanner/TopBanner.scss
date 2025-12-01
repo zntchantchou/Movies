@@ -7,9 +7,10 @@ $backdropRatio: 1.78;
   height: calc($banner-w / $backdropRatio);
 }
 
-.banner-overlay {
+.banner-mobile-overlay {
   @include banner-dimensions(100vw);
   z-index: 0;
+  cursor: pointer;
 }
 
 .backdrop-caption {
@@ -36,4 +37,11 @@ $backdropRatio: 1.78;
   height: 100%;
   background-position: no-repeat;
   background-size: cover;
+}
+
+// Larger devices
+@media (min-width: 767px) {
+  .banner-mobile-overlay {
+    display: none;
+  }
 }

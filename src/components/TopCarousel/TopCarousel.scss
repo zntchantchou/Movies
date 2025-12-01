@@ -1,0 +1,23 @@
+@mixin carousel-cell-dimensions($carousel-w) {
+  width: $carousel-w;
+  height: calc($carousel-w / 1.7);
+}
+
+#web-cell {
+  @include carousel-cell-dimensions(70vw);
+}
+
+.web-top-carousel {
+  display: none;
+}
+
+// Larger devices
+@media (min-width: 767px) {
+  .web-top-carousel {
+    display: block;
+  }
+}
+
+.web-top-carousel .flickity-page-dots {
+  display: none;
+}
