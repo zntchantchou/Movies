@@ -19,6 +19,8 @@
 
 .flickity-page-dots {
   display: flex;
+  bottom: -2rem;
+
   button {
     background-color: color.adjust($flickity-dot-color, $lightness: -50%);
   }

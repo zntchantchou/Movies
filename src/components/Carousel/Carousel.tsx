@@ -33,6 +33,7 @@ function Carousel({ items, title }: CarouselProps) {
       <div className="carousel-title">{title}</div>
       <div
         ref={ref}
+        id="content-carousel"
         className="carousel"
         data-flickity='{ "groupCells": true }'
       >

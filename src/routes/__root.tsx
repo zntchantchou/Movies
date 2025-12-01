@@ -9,6 +9,7 @@ import "./root.scss";
 import type { RouterContext } from "../routerContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
 
 function RootLayout() {
   const [queryClient] = useState(
@@ -26,6 +27,7 @@ function RootLayout() {
       <Header />
       <div id="content">
         <Outlet />
+        <Footer />
       </div>
       <Scripts />
       <TanStackRouterDevtools />

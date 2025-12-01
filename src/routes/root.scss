@@ -5,12 +5,11 @@
   top: 0;
   left: 0;
   right: 0;
-  max-height: 100vh;
   overflow-y: hidden;
   font-family: "DM Sans", sans-serif;
   font-optical-sizing: auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   color: white;
 }
 
@@ -18,7 +17,6 @@
   overflow-y: auto;
   margin-top: 4rem;
   height: calc(100vh - 4rem);
-  width: 100%;
 }
 
 // Larger devices

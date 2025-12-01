@@ -12,12 +12,21 @@ interface CarouselProps {
 const IMAGES_URL = "https://image.tmdb.org/t/p/w1280";
 
 function TopBanner({ items }: CarouselProps) {
-  const [currentMovie, setCurrentMovie] = useState<ClientMovie>(items[0]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
   const navigate = useNavigate({ from: "/" });
+
   useEffect(() => {
-    console.log("Iam the top banner ", currentMovie);
-  }, []);
-  const imgUrl = `url(${IMAGES_URL}${currentMovie.backdropPath})`;
+    const nextImageTicker = window.setInterval(() => {
+      if (currentIndex < items.length - 1) {
+        setCurrentIndex(currentIndex + 1);
+      } else if (currentIndex == items.length - 1) setCurrentIndex(0);
+    }, 10000);
+    return () => {
+      window.clearInterval(nextImageTicker);
+    };
+  }, [currentIndex, setCurrentIndex, items.length]);
+  const imgUrl = `url(${IMAGES_URL}${items[currentIndex].posterPath})`;
   {
     /* Render two items, one for mobile and one for web, display alternately using MQ*/
   }
@@ -25,11 +34,11 @@ function TopBanner({ items }: CarouselProps) {
     <div
       className="banner-mobile-overlay"
       onClick={() => {
-        navigate({ to: `/movie/${currentMovie.id}` });
+        navigate({ to: `/movie/${items[currentIndex].id}` });
       }}
     >
       <div className="backdrop" style={{ backgroundImage: imgUrl }}></div>
-      <div className="backdrop-caption">{currentMovie.title}</div>
+      <div className="backdrop-caption">{items[currentIndex].title}</div>
     </div>
   );
 }
