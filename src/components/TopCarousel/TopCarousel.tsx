@@ -17,6 +17,7 @@ function TopCarousel({ items }: TopCarouselProps) {
       new Flickity(ref.current, {
         lazyLoad: false,
         wrapAround: true,
+        autoPlay: 10000,
       });
   };
 
@@ -26,12 +27,7 @@ function TopCarousel({ items }: TopCarouselProps) {
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className="carousel web-top-carousel"
-      id="web-top-carousel"
-      data-flickity="{ autoPlay: true }"
-    >
+    <div ref={ref} className="carousel web-top-carousel" id="web-top-carousel">
       {items.map((movie) => (
         <TopCarouselItem item={movie} key={movie.id} />
       ))}
