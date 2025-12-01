@@ -1,7 +1,4 @@
-@mixin carousel-cell-dimensions($carousel-w) {
-  width: $carousel-w;
-  height: calc(1.7 * $carousel-w);
-}
+@import "../../styles/mixins.scss";
 
 .flickity-page-dots {
   display: none;
@@ -9,7 +6,7 @@
 
 .carousel-title {
   font-size: 1.6rem;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .carousel-cell {
@@ -51,11 +48,13 @@
   }
 }
 
+@media (max-width: 767px) {
+  .carousel-title {
+    padding: 1rem;
+  }
+}
 // Medium devices
 @media (min-width: 480px) and (max-width: 767px) {
-  .carousel {
-    height: 25rem;
-  }
   .carousel-cell {
     @include carousel-cell-dimensions(11rem);
     min-width: 8rem;

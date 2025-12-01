@@ -1,10 +1,12 @@
-@mixin carousel-cell-dimensions($carousel-w) {
-  width: $carousel-w;
-  height: calc($carousel-w / 1.7);
+@import "../../styles/mixins.scss";
+
+.web-top-carousel {
+  max-height: 50vh;
 }
 
 #web-cell {
-  @include carousel-cell-dimensions(70vw);
+  @include carousel-cell-dimensions(55vw);
+  max-height: 50vh;
 }
 
 .web-top-carousel {
@@ -20,4 +22,17 @@
 
 .web-top-carousel .flickity-page-dots {
   display: none;
+}
+
+.carousel-backdrop-caption {
+  @include dark-cell-gradient;
+  padding-left: 2.5rem;
+  padding-bottom: 1rem;
+  display: flex;
+  align-items: flex-end;
+  height: 7rem;
+  width: 100%;
+  color: white;
+  margin-top: -7rem;
+  font-size: 2rem;
 }

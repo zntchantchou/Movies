@@ -1,0 +1,12 @@
+@mixin dark-cell-gradient {
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.99) 20%,
+    rgba(0, 0, 0, 0) 90%
+  );
+}
+
+@mixin carousel-cell-dimensions($carousel-w) {
+  width: $carousel-w;
+  height: calc(1.7 * $carousel-w);
+}

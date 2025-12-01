@@ -29,7 +29,7 @@ function TopCarousel({ items }: TopCarouselProps) {
     <div
       ref={ref}
       className="carousel web-top-carousel"
-      // id="web-top-carousel"
+      id="web-top-carousel"
       data-flickity="{ autoPlay: true }"
     >
       {items.map((movie) => (
@@ -53,6 +53,7 @@ function TopCarouselItem({ item }: { item: ClientMovie }) {
       }}
     >
       <img src={imgUrl} alt={item.title} />
+      <div className="carousel-backdrop-caption">{item.title}</div>
       {/* <div className="title">{filmTitle}</div> */}
     </div>
   );

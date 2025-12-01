@@ -1,3 +1,5 @@
+@import "../../styles/mixins.scss";
+
 // media queries for bigger screens not the other way around (mobile-first)
 $posterRatio: 0.67;
 $backdropRatio: 1.78;
@@ -8,7 +10,7 @@ $backdropRatio: 1.78;
 }
 
 .banner-mobile-overlay {
-  @include banner-dimensions(100vw);
+  @include banner-dimensions(100%);
   z-index: 0;
   cursor: pointer;
 }
@@ -23,11 +25,7 @@ $backdropRatio: 1.78;
   font-size: 2rem;
   display: flex;
   align-items: flex-end;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.9) 50%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  @include dark-cell-gradient;
 }
 
 .backdrop {

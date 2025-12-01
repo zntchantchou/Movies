@@ -73,7 +73,7 @@ https://flickity.metafizzy.co
 
 .flickity-button:focus {
   outline: none;
-  box-shadow: 0 0 0 5px #19f;
+  box-shadow: 0 0 0 5px black;
 }
 
 .flickity-button:active {
