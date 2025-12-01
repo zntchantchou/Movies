@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .header {
   width: 100%;
   position: absolute;
@@ -14,7 +16,7 @@
 
 #website-title {
   font-size: 2rem;
-  color: white;
+  color: $theme-bonus-color;
   cursor: pointer;
   text-decoration: none;
 }

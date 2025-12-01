@@ -1,20 +1,34 @@
 @import "../../styles/mixins.scss";
 
 .web-top-carousel {
-  max-height: 50vh;
-}
-
-#web-cell {
-  @include carousel-cell-dimensions(55vw);
-  max-height: 50vh;
+  max-height: 55vh;
 }
 
 .web-top-carousel {
   display: none;
 }
 
+#web-cell {
+  @include carousel-cell-dimensions(80vw);
+}
+
 // Larger devices
+@media (min-width: 900px) {
+  #web-cell {
+    @include carousel-cell-dimensions(74vw);
+  }
+}
+// Larger devices
+@media (min-width: 1280px) {
+  #web-cell {
+    @include carousel-cell-dimensions(44vw);
+  }
+}
+
 @media (min-width: 767px) {
+  #web-cell {
+    max-height: 55vh;
+  }
   .web-top-carousel {
     display: block;
   }

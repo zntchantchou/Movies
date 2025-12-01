@@ -1,4 +1,5 @@
 @import "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
 
 // media queries for bigger screens not the other way around (mobile-first)
 $posterRatio: 0.67;
@@ -17,7 +18,7 @@ $backdropRatio: 1.78;
 
 .backdrop-caption {
   position: relative;
-  padding-left: 2rem;
+  padding-left: $title-padding;
   padding-bottom: 1rem;
   margin-top: -5rem;
   height: 4rem;

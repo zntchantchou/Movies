@@ -8,5 +8,6 @@
 
 @mixin carousel-cell-dimensions($carousel-w) {
   width: $carousel-w;
+  min-width: $carousel-w;
   height: calc(1.7 * $carousel-w);
 }

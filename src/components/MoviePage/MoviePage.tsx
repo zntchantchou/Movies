@@ -16,11 +16,11 @@ const MoviePage = ({ data }: MoviePageProps) => {
     overview,
     release_date,
     // runtime,
+    // popularity,
     vote_average,
     production_companies,
     spoken_languages,
     origin_country,
-    popularity,
   } = data;
 
   // const formatRuntime = (min) => {
@@ -31,17 +31,13 @@ const MoviePage = ({ data }: MoviePageProps) => {
 
   return (
     <div className="movie-details">
-      {/* BACKDROP */}
       <div
         className="backdrop"
         style={{
           backgroundImage: `url(${backgroundBase}${backdrop_path})`,
         }}
-      >
-        <div className="overlay"></div>
-      </div>
+      ></div>
 
-      {/* MAIN CONTENT */}
       <div className="content-wrapper">
         <div className="poster">
           <img src={`${posterBase}${poster_path}`} alt={title} />
@@ -50,7 +46,6 @@ const MoviePage = ({ data }: MoviePageProps) => {
         <div className="info">
           <h1>{title}</h1>
 
-          {/* TAGS */}
           <div className="meta">
             <span>{release_date}</span>
             <span>•</span>
@@ -59,27 +54,19 @@ const MoviePage = ({ data }: MoviePageProps) => {
             <span>{origin_country?.join(", ")}</span>
           </div>
 
-          {/* GENRES */}
           <div className="genres">
             {genres?.map((g) => (
               <span key={g.id}>{g.name}</span>
             ))}
           </div>
 
-          {/* OVERVIEW */}
           <h2>Overview</h2>
           <p className="overview">{overview}</p>
 
-          {/* EXTRA INFO */}
           <div className="stats">
             <div className="stat-item">
               <h3>Rating</h3>
-              <p>{vote_average} / 10</p>
-            </div>
-
-            <div className="stat-item">
-              <h3>Popularity</h3>
-              <p>{popularity}</p>
+              <p>{vote_average.toFixed(1)} / 10</p>
             </div>
 
             <div className="stat-item">
@@ -92,7 +79,6 @@ const MoviePage = ({ data }: MoviePageProps) => {
             </div>
           </div>
 
-          {/* PRODUCTION */}
           <div className="production">
             <h2>Production Companies</h2>
             <ul>

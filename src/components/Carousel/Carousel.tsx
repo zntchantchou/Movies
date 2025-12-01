@@ -49,7 +49,7 @@ function CarouselItem({ item }: { item: ClientMovie }) {
   // const imgUrl = `url(${IMAGES_URL + item.posterPath})`;
   const imgUrl = `${IMAGES_URL + item.posterPath}`;
   const filmTitle =
-    item.title.length > 25 ? `${item.title.slice(0, 22)}..` : item.title;
+    item.title.length > 25 ? `${item.title.slice(0, 20)}..` : item.title;
   return (
     <div
       className="carousel-cell"

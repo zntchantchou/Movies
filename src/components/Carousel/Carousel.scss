@@ -1,4 +1,11 @@
 @import "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
+
+.flickity-button-icon {
+  &:focus {
+    outline: $theme-bonus-color;
+  }
+}
 
 .flickity-page-dots {
   display: none;
@@ -6,7 +13,17 @@
 
 .carousel-title {
   font-size: 1.6rem;
-  padding: 1rem 0;
+  padding: 2rem 0rem 2rem $title-padding;
+}
+
+.flickity-page-dots {
+  display: flex;
+  button {
+    background-color: darken($flickity-dot-color, 50%);
+  }
+  .is-selected {
+    background-color: $flickity-dot-color;
+  }
 }
 
 .carousel-cell {
@@ -32,12 +49,10 @@
   opacity: 0.9;
 }
 
-// .carousel-cell.is-selected {}
-
 .title {
-  margin-top: 0.8rem;
-  font-size: large;
-  height: 3rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
 }
 
 // Small devices
@@ -51,6 +66,9 @@
 @media (max-width: 767px) {
   .carousel-title {
     padding: 1rem;
+  }
+  .flickity-page-dots {
+    display: none;
   }
 }
 // Medium devices
