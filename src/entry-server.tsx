@@ -8,6 +8,7 @@ import {
 import { createRouter } from "./router";
 import { dehydrate, QueryClientProvider } from "@tanstack/react-query";
 import { createMemoryHistory } from "@tanstack/react-router";
+import config from "./config";
 
 export async function render({
   req,
@@ -18,8 +19,10 @@ export async function render({
   res: Response;
   template: string;
 }) {
-  const url = new URL(req?.originalUrl || req.url, "http://localhost:3001")
-    .href;
+  const url = new URL(
+    req?.originalUrl || req.url,
+    "http://localhost:" + config?.port?.toString()
+  ).href;
 
   const request = new Request(url, {
     method: req.method,

@@ -1,0 +1,14 @@
+@import "../../styles/variables.scss";
+
+#button {
+  background: $theme-yellow;
+  color: black;
+  font-size: 2rem;
+  border-radius: 10px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
+#button:hover {
+  background-color: adjust-color($color: $theme-yellow, $lightness: -20%);
+}

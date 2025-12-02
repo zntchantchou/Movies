@@ -7,7 +7,6 @@ import MoviePage from "../../components/MoviePage/MoviePage";
 
 export const Route = createFileRoute(`/movie/$movieId`)({
   component: MovieDetails,
-  errorComponent: ErrorPage,
 });
 
 function MovieDetails() {
@@ -20,7 +19,7 @@ function MovieDetails() {
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <ErrorPage msg={error.message} />;
   }
 
   console.log("Movie Details Page", isPending, isError, data);

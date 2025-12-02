@@ -1,17 +1,19 @@
+import { useNavigate } from "@tanstack/react-router";
+import Button from "../Button/Button";
 import "./ErrorPage.scss";
 
-// type DetailsPageProps = {
-//   msg: string;
-// };
-function ErrorPage() {
+type ErrorPageProps = {
+  msg?: string;
+};
+function ErrorPage({ msg }: ErrorPageProps) {
+  const navigate = useNavigate();
+  const errorMsg = msg ? <span className="error-message">{msg}</span> : null;
   return (
     <div className="details-error-root">
       <div className="details-error-content">
-        <span>
-          An error has occured, we were not able to find the content you were
-          looking for!
-        </span>
-        {/* {msg} */}
+        <span className="default-message">Sorry, an error has occured!</span>
+        {errorMsg}
+        <Button text="Homepage" onClick={() => navigate({ to: "/" })} />
       </div>
     </div>
   );

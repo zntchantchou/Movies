@@ -46,15 +46,13 @@ export async function createServer(
     // only allow access from the client (using a key that should not appear on the front-end?) filter req.origin using domain-name + page?
     const movieId = req.params.id;
     const cached = cache.get(movieId);
-    let movieData;
     if (cached) return res.send(cached);
-    if (!cached) {
-      try {
-        movieData = await getCloudMovieDetails(movieId);
-        cache.set(movieId, movieData);
-      } catch (e) {
-        console.log("ERROR FETCHING MOVIE DETAILS ", e);
-      }
+    let movieData;
+    try {
+      movieData = await getCloudMovieDetails(movieId);
+      cache.set(movieId, movieData);
+    } catch (e) {
+      console.log("ERROR FETCHING MOVIE DETAILS ", e);
     }
     return res.send(movieData);
   });

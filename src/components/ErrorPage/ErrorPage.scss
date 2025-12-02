@@ -9,20 +9,36 @@
 .details-error-content {
   font-size: 2.2rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  .error-message,
+  .default-message {
+    margin-bottom: 1.3rem;
+  }
+  .error-message {
+    font-style: italic;
+  }
 }
-
 
 // Small devices
 @media (max-width: 480px) {
+  .error-message {
+    font-size: 1.2rem;
+  }
   .details-error-content {
-  width: 90vw;
+    width: 90vw;
+    span {
+      text-align: center;
+    }
   }
 }
 
 // Medium devices
 @media (min-width: 480px) and (max-width: 767px) {
+  .error-message {
+    font-size: 1.6rem;
+  }
   .details-error-content {
     width: 70vw;
   }
@@ -32,5 +48,8 @@
 @media (min-width: 767px) {
   .details-error-content {
     width: 60vw;
+  }
+  .error-message {
+    font-size: 1.8rem;
   }
 }
