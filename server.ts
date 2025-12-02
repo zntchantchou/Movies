@@ -45,6 +45,10 @@ export async function createServer(
     // send error if input is not exactly seven digit integer
     // only allow access from the client (using a key that should not appear on the front-end?) filter req.origin using domain-name + page?
     const movieId = req.params.id;
+    const isValidId = /^\d{7}$/.test(req.params.id);
+    if (!isValidId) {
+      return res.status(400).json({ error: "the id is not valid" });
+    }
     const cached = cache.get(movieId);
     if (cached) return res.send(cached);
     let movieData;

@@ -1,12 +1,12 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useRef, useEffect } from "react";
 import "./TopCarousel.scss";
 import type { ClientMovie } from "../../utils/utils";
-import { useNavigate } from "@tanstack/react-router";
 
 const IMAGES_URL = "https://image.tmdb.org/t/p/w1280";
 
 interface TopCarouselProps {
-  items: ClientMovie[];
+  items?: ClientMovie[] | null;
 }
 
 function TopCarousel({ items }: TopCarouselProps) {
@@ -22,15 +22,13 @@ function TopCarousel({ items }: TopCarouselProps) {
   };
 
   useEffect(() => {
-    console.log("Carousel useEffect!!");
     if (ref.current) initFlickity();
   }, []);
 
   return (
     <div ref={ref} className="carousel web-top-carousel" id="web-top-carousel">
-      {items.map((movie) => (
-        <TopCarouselItem item={movie} key={movie.id} />
-      ))}
+      {!!items &&
+        items.map((movie) => <TopCarouselItem item={movie} key={movie.id} />)}
     </div>
   );
 }
@@ -38,8 +36,6 @@ function TopCarousel({ items }: TopCarouselProps) {
 function TopCarouselItem({ item }: { item: ClientMovie }) {
   const navigate = useNavigate({ from: "/" });
   const imgUrl = `${IMAGES_URL + item.backdropPath}`;
-  // const filmTitle =
-  //   item.title.length > 25 ? `${item.title.slice(0, 22)}..` : item.title;
   return (
     <div
       id="web-cell"
@@ -50,7 +46,6 @@ function TopCarouselItem({ item }: { item: ClientMovie }) {
     >
       <img src={imgUrl} alt={item.title} />
       <div className="carousel-backdrop-caption">{item.title}</div>
-      {/* <div className="title">{filmTitle}</div> */}
     </div>
   );
 }

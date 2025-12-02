@@ -24,7 +24,6 @@ function Carousel({ items, title }: CarouselProps) {
   };
 
   useEffect(() => {
-    console.log("Carousel useEffect!!");
     if (ref.current) initFlickity();
   }, []);
 

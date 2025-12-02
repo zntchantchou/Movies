@@ -22,7 +22,7 @@ export type ClientMovie = {
 };
 
 export function formatMovies(movies: ApiMovie[]): ClientMovie[] {
-  // console.log("FORMAT MOVIES", movies);
+  if (!movies || !movies.length) return [];
   return movies.map((m) => ({
     id: m.id,
     title: m.title,

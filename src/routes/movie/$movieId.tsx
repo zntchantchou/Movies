@@ -18,8 +18,8 @@ function MovieDetails() {
     return <span>Loading...</span>;
   }
 
-  if (isError) {
-    return <ErrorPage msg={error.message} />;
+  if (isError || (data && data.success === false)) {
+    return <ErrorPage msg={error?.message || data?.status_message} />;
   }
 
   console.log("Movie Details Page", isPending, isError, data);

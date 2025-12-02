@@ -26,12 +26,20 @@ function Index() {
 
   return (
     <>
-      <TopBanner items={nowPlayingMovies} />
-      <TopCarousel items={nowPlayingMovies} />
-      <Carousel title="Popular movies" items={popularMovies} />
-      <Carousel title="Documentaries" items={documentaries} />
-      <Carousel title="Comedies" items={comedies} />
-      <Carousel title="History" items={historyMovies} />
+      {movies?.nowPlaying?.length && <TopBanner items={nowPlayingMovies} />}
+      {movies?.nowPlaying?.length && <TopCarousel items={nowPlayingMovies} />}
+      {movies?.popular?.length && (
+        <Carousel title="Popular movies" items={popularMovies} />
+      )}
+      {movies?.documentaries?.length && (
+        <Carousel title="Documentaries" items={documentaries} />
+      )}
+      {movies?.comedies?.length && (
+        <Carousel title="Comedies" items={comedies} />
+      )}
+      {movies?.history?.length && (
+        <Carousel title="History" items={historyMovies} />
+      )}
     </>
   );
 }
