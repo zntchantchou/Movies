@@ -10,7 +10,6 @@ export async function getApiMovieDetails(movieId: string) {
     const url = `http://127.0.0.1:${config.port}/movie-details/${movieId}`;
     const response = await fetch(url, { headers });
     const parsedMovies = await response.json();
-    console.log("[getMovieDetails] RUNNING ==> NOT CACHED", parsedMovies);
     return parsedMovies;
   } catch (e) {
     console.log("[getMovieDetails] error", e);

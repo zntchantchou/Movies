@@ -5,12 +5,14 @@ import type { ViteDevServer } from "vite";
 import cache from "./src/cache.ts";
 import { getCloudMovieDetails } from "./src/http/queries.server.ts";
 import config from "./src/config.ts";
+import { rateLimiter } from "./src/utils/utils.ts";
 
 export async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === "production"
 ) {
   const app = express();
+  app.use(rateLimiter);
   let vite: ViteDevServer | undefined = undefined;
   let manifest: Record<string, unknown> = {};
 
@@ -45,7 +47,8 @@ export async function createServer(
     // send error if input is not exactly seven digit integer
     // only allow access from the client (using a key that should not appear on the front-end?) filter req.origin using domain-name + page?
     const movieId = req.params.id;
-    const isValidId = /^\d{7}$/.test(req.params.id);
+    const isValidId = /^\d{3,7}$/.test(req.params.id);
+    console.log("IS VALID ", isValidId);
     if (!isValidId) {
       return res.status(400).json({ error: "the id is not valid" });
     }

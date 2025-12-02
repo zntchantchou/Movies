@@ -14,14 +14,15 @@ function MovieDetails() {
   const { isPending, isError, data, error } = useQuery(
     getApiMovieDetailsQuery(movieId)
   );
+  const hasError = isError || (data && data.success === false) || data?.error;
   if (isPending) {
     return <span>Loading...</span>;
   }
 
-  if (isError || (data && data.success === false)) {
-    return <ErrorPage msg={error?.message || data?.status_message} />;
+  if (hasError) {
+    return (
+      <ErrorPage msg={error?.message || data?.status_message || data?.error} />
+    );
   }
-
-  console.log("Movie Details Page", isPending, isError, data);
   return <MoviePage data={data} />;
 }

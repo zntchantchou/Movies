@@ -35,12 +35,10 @@ async function getHomePageMovies() {
 async function getMovies(url: string) {
   try {
     const headers = new Headers();
-    if (process.env)
-      headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
+    if (!process || !process.env) return null;
+    headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
     const response = await fetch(url, { headers });
     const parsedMovies = await response.json();
-    console.log("[GetMovies] RUNNING ==> NOT CACHED");
-    console.log("[GetMovies] URL ==> ", url);
     return parsedMovies.results;
   } catch (e) {
     // handle all errors here

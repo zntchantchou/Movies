@@ -66,7 +66,7 @@ const MoviePage = ({ data }: MoviePageProps) => {
           <div className="stats">
             <div className="stat-item">
               <h3>Rating</h3>
-              <p>{vote_average.toFixed(1)} / 10</p>
+              <p>{vote_average && vote_average?.toFixed(1)} / 10</p>
             </div>
 
             <div className="stat-item">
