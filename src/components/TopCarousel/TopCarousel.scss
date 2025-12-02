@@ -1,4 +1,4 @@
-@import "../../styles/mixins.scss";
+@use "../../styles/mixins";
 
 .web-top-carousel {
   max-height: 55vh;
@@ -9,19 +9,19 @@
 }
 
 #web-cell {
-  @include carousel-cell-dimensions(80vw);
+  @include mixins.carousel-cell-dimensions(80vw);
 }
 
 // Larger devices
 @media (min-width: 900px) {
   #web-cell {
-    @include carousel-cell-dimensions(74vw);
+    @include mixins.carousel-cell-dimensions(74vw);
   }
 }
 // Larger devices
 @media (min-width: 1280px) {
   #web-cell {
-    @include carousel-cell-dimensions(44vw);
+    @include mixins.carousel-cell-dimensions(44vw);
   }
 }
 
@@ -39,7 +39,7 @@
 }
 
 .carousel-backdrop-caption {
-  @include dark-cell-gradient;
+  @include mixins.dark-cell-gradient;
   padding-left: 2.5rem;
   padding-bottom: 1rem;
   display: flex;

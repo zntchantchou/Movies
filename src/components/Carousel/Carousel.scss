@@ -1,10 +1,10 @@
 @use "sass:color";
-@import "../../styles/mixins.scss";
-@import "../../styles/variables.scss";
+@use "../../styles/mixins";
+@use "../../styles/variables";
 
 .flickity-button-icon {
   &:focus {
-    outline: $theme-bonus-color;
+    outline: variables.$theme-yellow;
   }
 }
 
@@ -14,7 +14,7 @@
 
 .carousel-title {
   font-size: 1.6rem;
-  padding: 2rem 0rem 2rem $title-padding;
+  padding: 2rem 0rem 2rem variables.$title-padding;
 }
 
 .flickity-page-dots {
@@ -22,15 +22,15 @@
   bottom: -2rem;
 
   button {
-    background-color: color.adjust($flickity-dot-color, $lightness: -50%);
+    background-color: color.adjust(variables.$theme-yellow, $lightness: -50%);
   }
   .is-selected {
-    background-color: $flickity-dot-color;
+    background-color: variables.$theme-yellow;
   }
 }
 
 .carousel-cell {
-  @include carousel-cell-dimensions(11rem);
+  @include mixins.carousel-cell-dimensions(11rem);
   margin-right: 10px;
   border-radius: 5px;
   display: flex;
@@ -61,7 +61,7 @@
 // Small devices
 @media (max-width: 480px) {
   .carousel-cell {
-    @include carousel-cell-dimensions(10rem);
+    @include mixins.carousel-cell-dimensions(10rem);
     min-width: 8rem;
   }
 }
@@ -77,7 +77,7 @@
 // Medium devices
 @media (min-width: 480px) and (max-width: 767px) {
   .carousel-cell {
-    @include carousel-cell-dimensions(11rem);
+    @include mixins.carousel-cell-dimensions(11rem);
     min-width: 8rem;
   }
 }

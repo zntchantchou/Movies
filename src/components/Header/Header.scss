@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@use "../../styles/variables";
 
 .header {
   width: 100%;
@@ -11,12 +11,11 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: black;
 }
 
 #website-title {
   font-size: 2rem;
-  color: $theme-bonus-color;
+  color: variables.$theme-yellow;
   cursor: pointer;
   text-decoration: none;
 }

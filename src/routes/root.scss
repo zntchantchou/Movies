@@ -1,5 +1,7 @@
+@use "../styles/variables";
+
 #root {
-  background-color: black;
+  background-color: variables.$theme-primary-color;
   position: absolute;
   bottom: 0;
   top: 0;

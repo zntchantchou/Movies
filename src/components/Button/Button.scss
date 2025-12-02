@@ -1,7 +1,8 @@
-@import "../../styles/variables.scss";
+@use "../../styles/variables";
+@use "sass:color";
 
 #button {
-  background: $theme-yellow;
+  background: variables.$theme-yellow;
   color: black;
   font-size: 2rem;
   border-radius: 10px;
@@ -10,5 +11,8 @@
 }
 
 #button:hover {
-  background-color: adjust-color($color: $theme-yellow, $lightness: -20%);
+  background-color: color.adjust(
+    $color: variables.$theme-yellow,
+    $lightness: -20%
+  );
 }
