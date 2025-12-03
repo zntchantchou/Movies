@@ -30,7 +30,7 @@ export async function createServer(
     const clientDist = path.resolve(root, "dist/client");
     const serverDist = path.resolve(root, "dist/server");
     // Serve static client files
-    // app.use(express.static(clientDist));
+    app.use(express.static(clientDist));
 
     manifest = JSON.parse(
       fs.readFileSync(path.join(clientDist, ".vite/manifest.json"), "utf-8")
@@ -81,7 +81,8 @@ export async function createServer(
       const url = req.originalUrl;
 
       let templateHtml;
-      if (isProd) templateHtml = fs.readFileSync("./index.prod.html", "utf-8");
+      if (isProd)
+        templateHtml = fs.readFileSync("./dist/client/index.html", "utf-8");
       else {
         templateHtml = await vite!.transformIndexHtml(
           url,
@@ -97,8 +98,6 @@ export async function createServer(
 
         return import(path.join(app.locals.serverDist, "entry-server.js"));
       })();
-      console.log("IsProd ", isProd);
-
       entry.render({
         req,
         res,

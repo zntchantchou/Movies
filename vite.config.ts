@@ -34,15 +34,8 @@ const clientBuildConfig: BuildEnvironmentOptions = {
   emptyOutDir: true,
   manifest: true,
   assetsDir: "./assets",
-  rollupOptions: {
-    input: path.resolve(__dirname, "src/entry-client.tsx"),
-    output: {
-      entryFileNames: "[name].js",
-      chunkFileNames: "assets/[name]-[hash].js",
-      assetFileNames: "assets/[name]-[hash][extname]",
-    },
-  },
 };
+
 // https://vite.dev/config/
 export default defineConfig(({ isSsrBuild }) => {
   return {
@@ -53,7 +46,6 @@ export default defineConfig(({ isSsrBuild }) => {
       }),
       react(),
     ],
-    ssr: { external: ["express-rate-limit"] },
     build: isSsrBuild ? ssrBuildConfig : clientBuildConfig,
   };
 });
