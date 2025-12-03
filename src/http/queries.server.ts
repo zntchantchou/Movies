@@ -12,8 +12,6 @@ const MOVIE_GENRES = {
 const API_URL = "https://api.themoviedb.org/3";
 // const API_URL = "https://api.themoviedb.or/3";
 
-const staleTimeAsMinutes = 120;
-
 async function getHomePageMovies() {
   // try to still return value if there is an error.
   // Also send an error if there is one
@@ -35,7 +33,7 @@ async function getHomePageMovies() {
 async function getMovies(url: string) {
   try {
     const headers = new Headers();
-    if (!process || !process.env) return null;
+    if (!process || !process?.env) return null;
     headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
     const response = await fetch(url, { headers });
     const parsedMovies = await response.json();
@@ -66,8 +64,9 @@ async function getMoviesByGenre(genre: MovieGenre) {
 export const getHomePageMoviesQuery = queryOptions({
   queryFn: getHomePageMovies,
   queryKey: ["homepage"],
-  // refetching the movies on the home page should only happen at most once per hour (24 times a day)
-  staleTime: 1000 * 60 * staleTimeAsMinutes,
+  refetchOnMount: false,
+  refetchOnWindowFocus: false,
+  refetchOnReconnect: false,
 });
 
 export async function getCloudMovieDetails(movieId: string) {

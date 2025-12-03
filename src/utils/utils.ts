@@ -1,5 +1,3 @@
-import rateLimit from "express-rate-limit";
-
 type ApiMovie = {
   title: string;
   id: number;
@@ -37,10 +35,3 @@ export function formatMovies(movies: ApiMovie[]): ClientMovie[] {
     voteAverage: m.vote_average,
   }));
 }
-
-export const rateLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000, // per minute
-  limit: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-});

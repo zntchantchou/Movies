@@ -28,9 +28,11 @@ const ssrBuildConfig: BuildEnvironmentOptions = {
 // Client-specific configuration
 const clientBuildConfig: BuildEnvironmentOptions = {
   outDir: "dist/client",
+  ssr: false,
   emitAssets: true,
   copyPublicDir: true,
   emptyOutDir: true,
+  manifest: true,
   assetsDir: "./assets",
   rollupOptions: {
     input: path.resolve(__dirname, "src/entry-client.tsx"),
@@ -51,6 +53,7 @@ export default defineConfig(({ isSsrBuild }) => {
       }),
       react(),
     ],
+    ssr: { external: ["express-rate-limit"] },
     build: isSsrBuild ? ssrBuildConfig : clientBuildConfig,
   };
 });

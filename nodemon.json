@@ -1,0 +1,6 @@
+{
+  "verbose": true,
+  "watch": ["src", "server.ts"],
+  "ext": "ts,tsx,scss",
+  "ignore": ["*.test.js", "**/fixtures/**"]
+}

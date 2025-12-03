@@ -8,10 +8,11 @@ import TopCarousel from "../components/TopCarousel/TopCarousel";
 export const Route = createFileRoute("/")({
   component: Index,
   loader: ({ context }) => {
-    // request is only made on the server + sent to cache
+    const staleTime = 12 * 60 * 60 * 1000;
+    // request is made if there is no data in the cache, which is created at server build-time
     return context.queryClient.ensureQueryData({
       ...getHomePageMoviesQuery,
-      revalidateIfStale: true,
+      staleTime,
     });
   },
 });

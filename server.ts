@@ -5,14 +5,13 @@ import type { ViteDevServer } from "vite";
 import cache from "./src/cache.ts";
 import { getCloudMovieDetails } from "./src/http/queries.server.ts";
 import config from "./src/config.ts";
-import { rateLimiter } from "./src/utils/utils.ts";
 
 export async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === "production"
 ) {
   const app = express();
-  app.use(rateLimiter);
+
   let vite: ViteDevServer | undefined = undefined;
   let manifest: Record<string, unknown> = {};
 
@@ -30,19 +29,32 @@ export async function createServer(
   } else {
     const clientDist = path.resolve(root, "dist/client");
     const serverDist = path.resolve(root, "dist/server");
-
     // Serve static client files
-    app.use(express.static(clientDist));
+    // app.use(express.static(clientDist));
 
     manifest = JSON.parse(
       fs.readFileSync(path.join(clientDist, ".vite/manifest.json"), "utf-8")
     );
 
     app.locals.manifest = manifest;
+    console.log("manifest", manifest);
     app.locals.serverDist = serverDist;
+    // RATE LIMIT
+    if (import.meta.env?.SSR) {
+      const rateLimit = await (await import("express-rate-limit")).rateLimit;
+      app.use(
+        rateLimit({
+          windowMs: 1 * 60 * 1000,
+          limit: 250,
+          standardHeaders: true,
+          legacyHeaders: false,
+        })
+      );
+    }
   }
 
   app.get("/movie-details/:id", async (req, res) => {
+    console.log("REQ.IP ", req.ip);
     // id must be validated
     // send error if input is not exactly seven digit integer
     // only allow access from the client (using a key that should not appear on the front-end?) filter req.origin using domain-name + page?
@@ -68,9 +80,9 @@ export async function createServer(
     try {
       const url = req.originalUrl;
 
-      let templateHtml = "";
-
-      if (!isProd) {
+      let templateHtml;
+      if (isProd) templateHtml = fs.readFileSync("./index.prod.html", "utf-8");
+      else {
         templateHtml = await vite!.transformIndexHtml(
           url,
           fs.readFileSync("index.html", "utf-8")
@@ -85,6 +97,8 @@ export async function createServer(
 
         return import(path.join(app.locals.serverDist, "entry-server.js"));
       })();
+      console.log("IsProd ", isProd);
+
       entry.render({
         req,
         res,
