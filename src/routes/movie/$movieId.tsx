@@ -19,7 +19,6 @@ function MovieDetails() {
   if (isPending) {
     return <Loader />;
   }
-
   if (hasError) {
     return (
       <ErrorPage msg={error?.message || data?.status_message || data?.error} />

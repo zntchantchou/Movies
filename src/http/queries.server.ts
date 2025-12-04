@@ -1,4 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
+import NotFoundError from "../server/errors/NotFoundError.ts";
 
 const MOVIE_GENRES = {
   ANIMATION: 16,
@@ -10,7 +11,6 @@ const MOVIE_GENRES = {
 } as const;
 
 const API_URL = "https://api.themoviedb.org/3";
-// const ERROR_URL = "https://api.themoviedb.or/3";
 
 async function getHomePageMovies() {
   // try to still return value if there is an error.
@@ -69,12 +69,14 @@ export const getHomePageMoviesQuery = queryOptions({
 });
 
 export async function getCloudMovieDetails(movieId: string) {
-  console.log("GET CLOUD MOVIE DETAILS");
   const headers = new Headers();
   if (!process.env) return;
   headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
   const url = `${API_URL}/movie/${movieId}`;
   const response = await fetch(url, { headers });
+  if (response && !response.ok) {
+    throw new NotFoundError(movieId);
+  }
   const parsedMovies = await response.json();
   return parsedMovies;
 }
