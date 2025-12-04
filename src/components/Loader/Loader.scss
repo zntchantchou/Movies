@@ -1,0 +1,23 @@
+#loader-page {
+  height: 90vh;
+  width: 100%;
+  font-size: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .loader {
+    width: 60px;
+    aspect-ratio: 4;
+    background: radial-gradient(circle closest-side, #ffffff 90%, #f9f9f900) 0 /
+      calc(100% / 3) 100% space;
+    clip-path: inset(0 100% 0 0);
+    animation: l1 1s steps(4) infinite;
+  }
+}
+
+@keyframes l1 {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
+}

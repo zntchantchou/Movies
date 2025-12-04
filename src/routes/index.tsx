@@ -4,6 +4,7 @@ import { formatMovies } from "../utils/utils";
 import Carousel from "../components/Carousel/Carousel";
 import TopBanner from "../components/TopBanner/TopBanner";
 import TopCarousel from "../components/TopCarousel/TopCarousel";
+import ErrorPage from "../components/ErrorPage/ErrorPage";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -24,7 +25,9 @@ function Index() {
   const comedies = formatMovies(movies?.comedies);
   const historyMovies = formatMovies(movies?.history);
   const nowPlayingMovies = formatMovies(movies?.nowPlaying);
-
+  if (!Object.values(movies).some((v) => v !== null)) {
+    return <ErrorPage msg="Data cannot be displayed" />;
+  }
   return (
     <>
       {movies?.nowPlaying?.length && <TopBanner items={nowPlayingMovies} />}

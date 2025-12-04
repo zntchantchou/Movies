@@ -2,9 +2,9 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import type { ViteDevServer } from "vite";
-import cache from "./src/cache.ts";
-import { getCloudMovieDetails } from "./src/http/queries.server.ts";
 import config from "./src/config.ts";
+import getMovieDetails from "./src/server/controllers/movie-details.ts";
+import { errorMiddleware } from "./src/server/middleware/errors.ts";
 
 export async function createServer(
   root = process.cwd(),
@@ -37,7 +37,6 @@ export async function createServer(
     );
 
     app.locals.manifest = manifest;
-    console.log("manifest", manifest);
     app.locals.serverDist = serverDist;
     // RATE LIMIT
     if (import.meta.env?.SSR) {
@@ -53,29 +52,11 @@ export async function createServer(
     }
   }
 
-  app.get("/movie-details/:id", async (req, res) => {
-    console.log("REQ.IP ", req.ip);
-    // id must be validated
-    // send error if input is not exactly seven digit integer
-    // only allow access from the client (using a key that should not appear on the front-end?) filter req.origin using domain-name + page?
-    const movieId = req.params.id;
-    const isValidId = /^\d{3,7}$/.test(req.params.id);
-    console.log("IS VALID ", isValidId);
-    if (!isValidId) {
-      return res.status(400).json({ error: "the id is not valid" });
-    }
-    const cached = cache.get(movieId);
-    if (cached) return res.send(cached);
-    let movieData;
-    try {
-      movieData = await getCloudMovieDetails(movieId);
-      cache.set(movieId, movieData);
-    } catch (e) {
-      console.log("ERROR FETCHING MOVIE DETAILS ", e);
-    }
-    return res.send(movieData);
+  app.get("/movie-details/:id", getMovieDetails);
+  app.get("/err", async (req, res, next) => {
+    console.log("HEADERS SENT ", res.headersSent);
+    next(Error("Trying to middleware this error"));
   });
-
   app.get("*all", async (req, res) => {
     try {
       const url = req.originalUrl;
@@ -111,7 +92,7 @@ export async function createServer(
       res.status(500).end(err.stack);
     }
   });
-
+  app.use(errorMiddleware);
   return { app, vite };
 }
 

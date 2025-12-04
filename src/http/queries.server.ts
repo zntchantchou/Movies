@@ -10,7 +10,7 @@ const MOVIE_GENRES = {
 } as const;
 
 const API_URL = "https://api.themoviedb.org/3";
-// const API_URL = "https://api.themoviedb.or/3";
+// const ERROR_URL = "https://api.themoviedb.or/3";
 
 async function getHomePageMovies() {
   // try to still return value if there is an error.
@@ -39,10 +39,9 @@ async function getMovies(url: string) {
     const parsedMovies = await response.json();
     return parsedMovies.results;
   } catch (e) {
-    // handle all errors here
-    // log to logfile
+    // log error to logfile
     console.log(`[getMovies]:  ${url}`, e);
-    // allows us to still display
+    // null instead of throwing, other api endpoints might work, avoids breaking front-end
     return null;
   }
 }
@@ -70,16 +69,12 @@ export const getHomePageMoviesQuery = queryOptions({
 });
 
 export async function getCloudMovieDetails(movieId: string) {
+  console.log("GET CLOUD MOVIE DETAILS");
   const headers = new Headers();
-  if (process.env)
-    headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
-  try {
-    const url = `${API_URL}/movie/${movieId}`;
-    const response = await fetch(url, { headers });
-    const parsedMovies = await response.json();
-    return parsedMovies;
-  } catch (e) {
-    // handle error
-    console.log("[getMovieDetails] error", e);
-  }
+  if (!process.env) return;
+  headers.append("Authorization", `Bearer ${process.env?.TOKEN}`);
+  const url = `${API_URL}/movie/${movieId}`;
+  const response = await fetch(url, { headers });
+  const parsedMovies = await response.json();
+  return parsedMovies;
 }

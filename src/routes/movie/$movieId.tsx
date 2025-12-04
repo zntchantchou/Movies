@@ -4,6 +4,7 @@ import "./MovieDetails.scss";
 import { getApiMovieDetailsQuery } from "../../http/queries.client";
 import ErrorPage from "../../components/ErrorPage/ErrorPage";
 import MoviePage from "../../components/MoviePage/MoviePage";
+import Loader from "../../components/Loader/Loader";
 
 export const Route = createFileRoute(`/movie/$movieId`)({
   component: MovieDetails,
@@ -16,7 +17,7 @@ function MovieDetails() {
   );
   const hasError = isError || (data && data.success === false) || data?.error;
   if (isPending) {
-    return <span>Loading...</span>;
+    return <Loader />;
   }
 
   if (hasError) {
