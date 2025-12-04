@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import type { ApiError } from "../errors/ApiError.ts";
 import InternalServerError from "../errors/InternalError.ts";
+import ErrorLogger from "../ErrorLogger.ts";
 
 export async function errorMiddleware(
   err: Error,
@@ -8,12 +9,12 @@ export async function errorMiddleware(
   res: Response,
   nextFn: NextFunction
 ) {
-  if (isApiError(err)) {
-    // log error using getFormattedError and log to error log
-    return res.status(err.statusCode).json(err.getFormattedError());
+  let error;
+  if (!isApiError(err)) error = new InternalServerError();
+  else {
+    error = err;
   }
-  // Try to extract a cause or message from the error and log it to error log
-  const error = new InternalServerError();
+  ErrorLogger.log(req, error);
   return res.status(error.statusCode).json(error.getFormattedError());
 }
 

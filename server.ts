@@ -5,6 +5,7 @@ import type { ViteDevServer } from "vite";
 import config from "./src/config.ts";
 import getMovieDetails from "./src/server/controllers/movie-details.ts";
 import { errorMiddleware } from "./src/server/middleware/errors.ts";
+import logMiddelware from "./src/server/middleware/logger.ts";
 
 export async function createServer(
   root = process.cwd(),
@@ -14,7 +15,6 @@ export async function createServer(
 
   let vite: ViteDevServer | undefined = undefined;
   let manifest: Record<string, unknown> = {};
-
   if (!isProd) {
     vite = await (
       await import("vite")
@@ -24,7 +24,7 @@ export async function createServer(
       server: { middlewareMode: true },
       appType: "custom",
     });
-
+    app.use(logMiddelware);
     app.use(vite.middlewares);
   } else {
     const clientDist = path.resolve(root, "dist/client");
@@ -53,9 +53,11 @@ export async function createServer(
   }
 
   app.get("/movie-details/:id", getMovieDetails);
-  app.get("/err", async (req, res, next) => {
-    console.log("HEADERS SENT ", res.headersSent);
-    next(Error("Trying to middleware this error"));
+  app.get("/err", (req, res, next) => {
+    console.log("ERR MIDDLEWARE");
+    // console.log("HEADERS SENT ", res.headersSent);
+    next(Error("This is fucked up"));
+    res.send("This is /er");
   });
   app.get("*all", async (req, res) => {
     try {

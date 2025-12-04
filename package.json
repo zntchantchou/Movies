@@ -24,6 +24,8 @@
     "flickity": "^3.0.0",
     "node-cache": "^5.1.2",
     "nodemon": "^3.1.11",
+    "pino": "^10.1.0",
+    "pino-roll": "^4.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "ts-node": "^10.9.2"
