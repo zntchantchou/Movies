@@ -5,7 +5,8 @@ import type { ViteDevServer } from "vite";
 import config from "./src/config.ts";
 import getMovieDetails from "./src/server/controllers/movie-details.ts";
 import { errorMiddleware } from "./src/server/middleware/errors.ts";
-import logMiddelware from "./src/server/middleware/logger.ts";
+import logMiddelware from "./src/server/middleware/logmiddleware.ts";
+import Logger from "./src/utils/Logger.ts";
 
 export async function createServer(
   root = process.cwd(),
@@ -53,12 +54,6 @@ export async function createServer(
   }
 
   app.get("/movie-details/:id", getMovieDetails);
-  app.get("/err", (req, res, next) => {
-    console.log("ERR MIDDLEWARE");
-    // console.log("HEADERS SENT ", res.headersSent);
-    next(Error("This is fucked up"));
-    res.send("This is /er");
-  });
   app.get("*all", async (req, res) => {
     try {
       const url = req.originalUrl;
@@ -99,5 +94,5 @@ export async function createServer(
 }
 
 createServer().then(({ app }) => {
-  app.listen(config.port, () => console.log(`App listening on port ${3002}`));
+  app.listen(config.port, () => Logger.info(`App listening on port ${3002}`));
 });

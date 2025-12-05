@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import type { ApiError } from "../errors/ApiError.ts";
 import InternalServerError from "../errors/InternalError.ts";
-import ErrorLogger from "../ErrorLogger.ts";
+import Logger from "../../utils/Logger.ts";
+// import ErrorLogger from "../../utils/ErrorLogger.ts";
 
 export async function errorMiddleware(
   err: Error,
@@ -9,13 +10,15 @@ export async function errorMiddleware(
   res: Response,
   nextFn: NextFunction
 ) {
-  let error;
-  if (!isApiError(err)) error = new InternalServerError();
-  else {
-    error = err;
+  if (isApiError(err)) {
+    Logger.logApiError(req, err);
+    return res.status(err.statusCode).json(err.getFormattedError());
   }
-  ErrorLogger.log(req, error);
-  return res.status(error.statusCode).json(error.getFormattedError());
+  Logger.error(err);
+  const genericError = new InternalServerError();
+  return res
+    .status(genericError.statusCode)
+    .json(genericError.getFormattedError());
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
