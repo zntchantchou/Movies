@@ -13,14 +13,15 @@ const MOVIE_GENRES = {
 const API_URL = "https://api.themoviedb.org/3";
 
 async function getHomePageMovies() {
-  // try to still return value if there is an error.
-  // Also send an error if there is one
-  // Also promise.all the whole thing
-  const documentaries = await getMoviesByGenre(MOVIE_GENRES.DOCUMENTARY);
-  const comedies = await getMoviesByGenre(MOVIE_GENRES.COMEDY);
-  const history = await getMoviesByGenre(MOVIE_GENRES.HISTORY);
-  const popularMovies = await getPopularMovies();
-  const nowPlayingMovies = await getNowPlayingMovies();
+  const moviePromises = [
+    getMoviesByGenre(MOVIE_GENRES.DOCUMENTARY),
+    getMoviesByGenre(MOVIE_GENRES.COMEDY),
+    getMoviesByGenre(MOVIE_GENRES.HISTORY),
+    getPopularMovies(),
+    getNowPlayingMovies(),
+  ];
+  const [documentaries, comedies, history, popularMovies, nowPlayingMovies] =
+    await Promise.all(moviePromises);
   return {
     documentaries,
     popular: popularMovies,
@@ -39,10 +40,12 @@ async function getMovies(url: string) {
     const parsedMovies = await response.json();
     return parsedMovies.results;
   } catch (e) {
-    // log error to logfile
-    console.log(`[getMovies]:  ${url}`, e);
-    // null instead of throwing, other api endpoints might work, avoids breaking front-end
-    return null;
+    // this must not be imported in the front-end code because logger in already instanciated (singleton) and relies on join from node's "path"
+    if (typeof window === "undefined") {
+      const Logger = await (await import("../utils/Logger.ts")).default;
+      Logger.error(e as Error);
+    }
+    return null; // null instead of throwing, other api endpoints might work, avoids breaking front-end
   }
 }
 

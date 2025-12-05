@@ -3,7 +3,6 @@ import Button from "../Button/Button";
 import "./NotFound.scss";
 
 function NotFoundComponent() {
-  console.log("[NotFoundComponent]");
   const navigate = useNavigate();
   return (
     <div id="not-found">

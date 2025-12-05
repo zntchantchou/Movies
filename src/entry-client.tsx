@@ -9,7 +9,6 @@ const dehydrated = (window as any).__TANSTACK_QUERY_STATE__; // eslint-disable-l
 
 hydrate(queryClient, dehydrated);
 
-// console.log("DEHYDRATED ", dehydrated);
 const router = createRouter({ head: "", queryClient });
 
 hydrateRoot(

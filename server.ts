@@ -40,17 +40,17 @@ export async function createServer(
     app.locals.manifest = manifest;
     app.locals.serverDist = serverDist;
     // RATE LIMIT
-    if (import.meta.env?.SSR) {
-      const rateLimit = await (await import("express-rate-limit")).rateLimit;
-      app.use(
-        rateLimit({
-          windowMs: 1 * 60 * 1000,
-          limit: 250,
-          standardHeaders: true,
-          legacyHeaders: false,
-        })
-      );
-    }
+  }
+  if (import.meta.env?.SSR) {
+    const rateLimit = await (await import("express-rate-limit")).rateLimit;
+    app.use(
+      rateLimit({
+        windowMs: 1 * 60 * 1000,
+        limit: 250,
+        standardHeaders: true,
+        legacyHeaders: false,
+      })
+    );
   }
 
   app.get("/movie-details/:id", getMovieDetails);
@@ -94,5 +94,11 @@ export async function createServer(
 }
 
 createServer().then(({ app }) => {
-  app.listen(config.port, () => Logger.info(`App listening on port ${3002}`));
+  if (!config.port) {
+    Logger.error(new Error("Missing port for the server."));
+    process.exit();
+  }
+  app.listen(config.port, () =>
+    Logger.info(`App listening on port ${config.port}`)
+  );
 });
