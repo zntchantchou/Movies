@@ -29,7 +29,7 @@ class Logger {
           level: "error",
           options: {
             destination: "logs/app.log",
-            file: `${join("logs", "error")}`,
+            file: `${join("logs", process.env.NODE_ENV === "test" ? "test" : "error")}`,
             frequency: "daily",
             mkdir: true,
             dateFormat: "yyyy-MM-dd",

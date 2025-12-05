@@ -7,6 +7,8 @@ import getMovieDetails from "./src/server/controllers/movie-details.ts";
 import { errorMiddleware } from "./src/server/middleware/errors.ts";
 import logMiddelware from "./src/server/middleware/logmiddleware.ts";
 import Logger from "./src/utils/Logger.ts";
+import rateLimit from "express-rate-limit";
+import RLHandler from "./src/server/controllers/ratelimit.ts";
 
 export async function createServer(
   root = process.cwd(),
@@ -25,8 +27,8 @@ export async function createServer(
       server: { middlewareMode: true },
       appType: "custom",
     });
-    app.use(logMiddelware);
     app.use(vite.middlewares);
+    app.use(logMiddelware);
   } else {
     const clientDist = path.resolve(root, "dist/client");
     const serverDist = path.resolve(root, "dist/server");
@@ -39,19 +41,17 @@ export async function createServer(
 
     app.locals.manifest = manifest;
     app.locals.serverDist = serverDist;
-    // RATE LIMIT
   }
-  if (import.meta.env?.SSR) {
-    const rateLimit = await (await import("express-rate-limit")).rateLimit;
-    app.use(
-      rateLimit({
-        windowMs: 1 * 60 * 1000,
-        limit: 250,
-        standardHeaders: true,
-        legacyHeaders: false,
-      })
-    );
-  }
+  // if (import.meta.env?.SSR) { // build specific workaround }
+  app.use(
+    rateLimit({
+      windowMs: (config.rateLimitWindow as unknown as number) * 1000,
+      limit: config.rateLimitAmount as unknown as number,
+      standardHeaders: true,
+      legacyHeaders: false,
+      handler: RLHandler,
+    })
+  );
 
   app.get("/movie-details/:id", getMovieDetails);
   app.get("*all", async (req, res) => {
