@@ -8,7 +8,7 @@ import {
 import { createRouter } from "./router";
 import { dehydrate, QueryClientProvider } from "@tanstack/react-query";
 import { createMemoryHistory } from "@tanstack/react-router";
-import config from "./config";
+import config from "./config.server";
 
 export async function render({
   req,

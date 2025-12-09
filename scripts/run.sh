@@ -1,0 +1,1 @@
+docker run -d -v ./logs:/app/logs -p 3002:3002 movie

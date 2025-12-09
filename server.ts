@@ -2,7 +2,7 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import type { ViteDevServer } from "vite";
-import config from "./src/config.ts";
+import config from "./src/config.server.ts";
 import getMovieDetails from "./src/server/controllers/movie-details.ts";
 import { errorMiddleware } from "./src/server/middleware/errors.ts";
 import logMiddelware from "./src/server/middleware/logmiddleware.ts";
