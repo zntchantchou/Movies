@@ -4,7 +4,7 @@ const staleTimeAsMinutes = 120;
 
 export async function getApiMovieDetails(movieId: string) {
   const headers = new Headers();
-  const url = `http://${import.meta.env.VITE_API_URL}/movie-details/${movieId}`;
+  const url = `${import.meta.env.VITE_API_URL}/movie-details/${movieId}`;
   const response = await fetch(url, { headers });
   const data = await response.json();
   if (data?.isError) throw data;
