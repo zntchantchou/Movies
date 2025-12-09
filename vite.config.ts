@@ -39,6 +39,9 @@ const clientBuildConfig: BuildEnvironmentOptions = {
 // https://vite.dev/config/
 export default defineConfig(({ isSsrBuild }) => {
   return {
+    server: {
+      allowedHosts: ["host.docker.internal"],
+    },
     plugins: [
       tanstackRouter({
         target: "react",
