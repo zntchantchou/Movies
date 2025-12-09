@@ -3,7 +3,6 @@ import {
   Outlet,
   Scripts,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useState } from "react";
 import "./root.scss";
 import type { RouterContext } from "../routerContext";
@@ -30,7 +29,7 @@ function RootLayout() {
         <Footer />
       </div>
       <Scripts />
-      <TanStackRouterDevtools />
+      {/* <TanStackRouterDevtools /> */}
     </QueryClientProvider>
   );
 }
