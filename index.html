@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/init.css" />
     <link rel="stylesheet" href="/flickity.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,8 +14,10 @@
     <!-- app-head -->
   </head>
   <body>
+    <div id="pre-loader"></div>
     <div id="root"><!--app-html--></div>
     <!--ssr-data-->
+    <script type="module" src="init.js"></script>
     <script type="module" src="/src/entry-client.tsx"></script>
   </body>
 </html>

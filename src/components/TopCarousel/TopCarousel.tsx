@@ -24,7 +24,6 @@ function TopCarousel({ items }: TopCarouselProps) {
   useEffect(() => {
     if (ref.current) initFlickity();
   }, []);
-
   return (
     <div ref={ref} className="carousel web-top-carousel" id="web-top-carousel">
       {!!items &&

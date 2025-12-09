@@ -1,0 +1,30 @@
+body {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+#root {
+  visibility: hidden;
+}
+
+#pre-loader {
+  width: 60px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side, #ffffff 90%, #f9f9f900) 0 /
+    calc(100% / 3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: l1 1s steps(4) infinite;
+}
+
+@keyframes l1 {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
+}
