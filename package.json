@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --config ./nodemon.json --exec 'node --env-file=.env server.ts'",
+    "dev": "nodemon --config ./nodemon.json --exec 'node --env-file=.env.local server.ts'",
     "serve": "node --env-file=.env server.ts",
     "test": "node --env-file=.env.test server.ts",
     "test:ratelimit": "node --env-file=.env.test test/ratelimit/ratelimit.test.js",
