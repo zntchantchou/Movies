@@ -9,13 +9,14 @@ import logMiddelware from "./src/server/middleware/logmiddleware.ts";
 import Logger from "./src/utils/Logger.ts";
 import rateLimit from "express-rate-limit";
 import RLHandler from "./src/server/controllers/ratelimit.ts";
+import cors from "cors";
 
 export async function createServer(
   root = process.cwd(),
   isProd = process.env.NODE_ENV === "production"
 ) {
   const app = express();
-
+  app.use(cors({ methods: ["GET"], origin: config.origin }));
   let vite: ViteDevServer | undefined = undefined;
   let manifest: Record<string, unknown> = {};
   if (!isProd) {
